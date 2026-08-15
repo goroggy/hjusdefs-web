@@ -1,0 +1,315 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Hogyan készült — HJusDefs 0.9</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+ :root{ color-scheme:light dark; --line:#8883; --muted:#8888; --accent:#2b6cb0; }
+ *{box-sizing:border-box}
+ body{font:16px/1.65 system-ui,Segoe UI,sans-serif;margin:0;background:Canvas;color:CanvasText}
+ .wrap{max-width:820px;margin:0 auto;padding:32px 22px 80px}
+ nav{font-size:13.5px;margin-bottom:26px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+ nav a{color:var(--accent);text-decoration:none;margin-right:16px}
+ nav a:hover{text-decoration:underline}
+ h1{font-size:26px;line-height:1.25;margin:0 0 6px}
+ h2{font-size:19px;margin:34px 0 10px;padding-top:10px;border-top:1px solid var(--line)}
+ h3{font-size:16px;margin:22px 0 8px}
+ p,li{margin:9px 0}
+ code{font:13px ui-monospace,Consolas,monospace;background:color-mix(in srgb,CanvasText 8%,transparent);
+      padding:1px 5px;border-radius:4px}
+ table{border-collapse:collapse;margin:14px 0;font-size:14.5px;width:100%}
+ th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+ th{background:color-mix(in srgb,CanvasText 6%,transparent)}
+ hr{border:0;border-top:1px solid var(--line);margin:26px 0}
+ em.sub{display:block;color:var(--muted);font-size:14px;margin-bottom:4px}
+ blockquote{margin:14px 0;padding:8px 14px;border-left:3px solid var(--line);color:var(--muted)}
+ a{color:var(--accent)}
+ .meta{font-size:14px;color:var(--muted);margin:10px 0 0}
+ .abstract{border:1px solid var(--line);border-radius:6px;padding:14px 18px;margin:22px 0;
+           background:color-mix(in srgb,CanvasText 3%,transparent);font-size:15px}
+ .abstract h3{margin-top:0}
+ .caption{font-size:13.5px;color:var(--muted);margin:-6px 0 18px}
+ sup a{text-decoration:none;font-weight:600}
+ ol.refs{font-size:14.5px;padding-left:26px}
+ ol.refs li{margin:8px 0}
+ ol.refs li:target{background:color-mix(in srgb,var(--accent) 14%,transparent);border-radius:4px}
+ .toc{font-size:14.5px;border:1px solid var(--line);border-radius:6px;padding:12px 18px;margin:20px 0}
+ .toc ol{margin:6px 0;padding-left:22px}
+ .toc a{text-decoration:none}
+ .toc a:hover{text-decoration:underline}
+ @media(max-width:640px){ .wrap{padding:20px 14px 60px} table{font-size:13px} }
+</style>
+<div class="wrap">
+<nav><a href="hjusdefs.html">&larr; Vissza a gyűjteményhez</a>
+<a href="Miez.html">Mi ez?</a><a href="Hogyan_keszult.html">Hogyan készült?</a></nav>
+
+<h1>Fogalmi háló a magyar jogszabályok értelmező rendelkezéseiből 0.9</h1>
+<em class="sub">Determinisztikus kinyerés, zajszűrt fogalmi háló és szerkezeti gerinc: módszer és első eredmények 16 290 Magyar Közlöny-dokumentumon</em>
+<p class="meta">Módszertani tanulmány a HJusDefs gyűjteményhez · 2026</p>
+
+<div class="abstract">
+<h3>Kivonat</h3>
+<p><b>Háttér.</b> A magyar jogszabályok „Értelmező rendelkezések" szakaszai több ezer legáldefiníciót (fogalommeghatározást) tartalmaznak, de ezek jogszabályonként elszigetelten élnek: nincs olyan összeállítás, amelyből kiderülne, mely fogalmakat hány jogszabály határoz meg, milyen eltéréssel, és melyik definíció melyik másikra épül.</p>
+<p><b>Célkitűzés.</b> A munka három kérdést vizsgál: a definíciós <i>redundanciát</i>, a definíciók közötti <i>fogalmi függést</i>, valamint a <i>hídfogalmakat</i> — azokat a kifejezéseket, amelyekre sok meghatározás hivatkozik, de a <i>vizsgált korpuszban</i> egyetlen jogszabály sem definiálja őket (a vizsgált korpusz nem az összes hatályos jogszabály).</p>
+<p><b>Módszer.</b> 16 290 Magyar Közlöny-dokumentum (2013–2026, három korábbi alapkódexszel kiegészítve) determinisztikus mintaillesztéses feldolgozása. A nyers lexikai éleket nyelvmodell-alapú zajszűrés tisztítja (GPT-4.1-mini, <code>T=0</code>, zárt válaszkészlet); a fogalmi gerinc viszont nem modellcímkékből, hanem a definíciók nyelvtani szerkezetéből és a fogalomnevek morfológiájából épül (genus-pozíció, puszta felsorolás, fejszó-öröklés), minden élhez a bizonyító mondatrészlettel vagy névpárral — a felsorolásból származó éleket helyben futtatott Racka-4B behelyettesítéses próbája („a ⟨tag⟩ egy ⟨definiendum⟩?") igazolja. A hídfogalom-jelöltek négylépcsős szűrésen mennek át (korpuszgyakoriság, szótári ellenőrzés, egységes modell-osztályozás, kézi felülírás).</p>
+<p><b>Eredmények.</b> 19 235 kinyert definíció (ebből 14 417 hatályos jogszabályból), 9 642 csomópont. A 37 709 nyers lexikai élből a zajszűrés után 10 016 marad; a kiszűrt élek kézi mintán ~93%-ban tényleg véletlen szóegyezések. A nézetben megjelenő is_a-gerinc 4133 éle (553 genus-pozíciós, 3182 fejszó-örökölt — ebből 2433-at a helyi Racka-4B behelyettesítéses próbája is megerősít, 398 igazolt felsorolás-tag) mindegyike a forrásmondat idézetével vagy a bizonyító fogalomnévvel ellenőrizhető. 261 hídfogalom, ezek 62,8%-a köznyelvi regiszterű; 63 fogalomnál viszont két független nyelvi forrás egybehangzóan a szakmai jelleget erősíti meg. Egy független feldolgozási útvonallal szemben a definíciók 92,6%-a szó szerint egyezik.</p>
+<p><b>Következtetés.</b> A determinisztikus kinyerés, a zajszűrt lexikai háló és a szerkezeti bizonyítékon alapuló fogalmi gerinc kombinációja ellenőrizhető és reprodukálható fogalomtérképet ad: a nézet minden állítása vagy szó szerinti jogszabály-idézet, vagy a forrásmondattal hátolt szerkezeti viszony.</p>
+<p style="margin-bottom:0"><b>Kulcsszavak:</b> legáldefiníció · jogi fogalmi háló · normavilágosság · információkinyerés · jogi informatika · magyar jogi korpusz</p>
+</div>
+
+<div class="toc">
+<b>Tartalom</b>
+<ol>
+<li><a href="#s1">Bevezetés</a></li>
+<li><a href="#s2">Előzmények</a></li>
+<li><a href="#s3">Anyag és módszer</a></li>
+<li><a href="#s4">Eredmények</a></li>
+<li><a href="#s5">Megbeszélés</a></li>
+<li><a href="#s6">Korlátok</a></li>
+<li><a href="#s7">Következtetések és további irányok</a></li>
+<li><a href="#hiv">Hivatkozások</a></li>
+</ol>
+</div>
+
+<h2 id="s1">1. Bevezetés</h2>
+
+<p>A legáldefiníció a jogalkotás egyik legrégebbi technikai eszköze: a jogszabály maga rögzíti, hogy egy kifejezést a saját alkalmazási körében milyen jelentésben használ. A magyar jogszabályok jelentős része tartalmaz „Értelmező rendelkezések" alcímet, illetve „E törvény alkalmazásában…" fordulattal bevezetett meghatározásokat.</p>
+
+<p>Ezek a definíciók azonban <b>szétszórtan élnek</b>. Minden jogszabály a saját fogalomkészletét írja le, egymásra hivatkozva, egymástól átvéve vagy éppen egymástól eltérve — de nincs olyan összeállítás, amely a teljes állományt együtt mutatná. Emiatt három, jogilag is érdekes kérdés marad megválaszolatlanul:</p>
+
+<ol>
+<li><b>K1 — Redundancia.</b> Ugyanazt a fogalmat hány jogszabály definiálja, és a szövegek mennyire térnek el egymástól? Az eltérés valódi tartalmi szétcsúszás, vagy csak eltérő megfogalmazás ugyanarra a dologra?</li>
+<li><b>K2 — Fogalmi függés.</b> Egy definíció mely más, szintén definiált fogalmakra épül, és ezekből milyen ellenőrizhető hierarchia (tágabb–szűkebb viszonyok) építhető?</li>
+<li><b>K3 — Hallgatólagos alapok.</b> Mely fogalmakra hivatkozik sok meghatározás úgy, hogy <i>egyetlen</i> jogszabály sem definiálja őket? Ezeket nevezzük a továbbiakban <b>hídfogalmaknak</b>.</li>
+</ol>
+
+<p>A harmadik kérdés a legérdekesebb, mert közvetlenül érinti a normavilágosság alkotmányos követelményét. Ha a jogalkotó definiálatlanul hagy egy fogalmat, azzal vagy a köznyelvi jelentésre támaszkodik — ami legitim és elkerülhetetlen jogalkotási gyakorlat<sup><a href="#r1">[1]</a><a href="#r2">[2]</a></sup> —, vagy egy definiálatlan szakkifejezést hagy a jogalkalmazóra, ami már normavilágossági probléma<sup><a href="#r3">[3]</a></sup>. A kettő megkülönböztetéséhez a jogi szövegen kívülről kell nyelvi bizonyítékot behozni; a jelen munka erre tesz javaslatot.</p>
+
+<p>A tanulmány elsődleges hozzájárulása <b>módszertani</b>: nagy magyar jogi korpuszon a fogalmi háló felépítéséhez a determinisztikus mintaillesztés és a szűk, zárt kérdésre bevetett nyelvi modell kombinációja ellenőrizhető és olcsó út — a nézetben megjelenő minden relációs állítás a forrásmondattal ellenőrizhető.</p>
+
+<h2 id="s2">2. Előzmények</h2>
+
+<h3>2.1 A legáldefiníció és a normavilágosság</h3>
+<p>A jogi nyelv határozatlansága nem hiba, hanem szerkezeti sajátosság: Hart „nyitott szövedék" (<i>open texture</i>) fogalma szerint minden általános szabály tartalmaz olyan határesetet, amelyet a szöveg maga nem dönt el<sup><a href="#r1">[1]</a></sup>; Endicott ezt a jogi homályosság szisztematikus elemzésévé fejleszti<sup><a href="#r2">[2]</a></sup>. A legáldefiníció ennek a határozatlanságnak a célzott csökkentése — de csak ott, ahol a jogalkotó él vele.</p>
+<p>A magyar alkotmánybírósági gyakorlatban a normavilágosság a jogbiztonságból levezetett követelmény: a jogszabálynak „értelmes és világos" normatartalmat kell hordoznia. A doktrína ívét — a 9/1992. (I. 30.), 11/1992. (III. 5.) és 26/1992. (IV. 30.) AB határozatoktól a mai gyakorlatig — Manhertz tekinti át rendszerezetten<sup><a href="#r3">[3]</a></sup>. A jelen munka szempontjából ebből az következik, hogy a <i>definiálatlanul hagyott szakkifejezés</i> nem pusztán szerkesztési kérdés, hanem mérhető jelenség, amelynek alkotmányjogi olvasata van. A jogi nyelv alulhatározottságát, amely ezt a hiányt szerkezeti sajátosságként kezeli, Szabó Miklós vizsgálja a magyar jogi nyelv sajátosságai kapcsán<sup><a href="#r30">[30]</a></sup>.</p>
+
+<h3>2.2 Definíciók gépi kinyerése jogi szövegből</h3>
+<p>A jogi definíciók automatikus felismerése önálló kutatási hagyomány. Walter és Pinkal német bírósági határozatokból nyert ki definíciókat nyelvi mintákkal, és megmutatta, hogy a definíciós fordulatok viszonylag zárt, leírható halmazt alkotnak<sup><a href="#r4">[4]</a></sup>. Winkels és Hoekstra holland jogszabályokon a definíciókat és a definiált fogalmakat együtt nyerte ki, kifejezetten fogalmi háló építése céljából<sup><a href="#r5">[5]</a></sup>. Curtotti és McCreath ausztrál szerződéskorpuszon dolgozott<sup><a href="#r6">[6]</a></sup>, majd Sridharannal együtt a szerződéses <i>definíciós hálózatok</i> vizualizációját vizsgálta — megállapítva, hogy a definíciók fokszámeloszlása log-normális, és hogy egyes meghatározások jelentése „rejtve marad", mert további definíciókra utalnak<sup><a href="#r7">[7]</a></sup>. Ez utóbbi megfigyelés a jelen munka hídfogalom-kérdésének közvetlen előzménye.</p>
+
+<h3>2.3 Jogi fogalmi hálózatok, ontológiák, szabványok</h3>
+<p>A jogi szövegek hálózatos elemzését Bommarito és Katz alapozta meg az Egyesült Államok Kódexén<sup><a href="#r8">[8]</a></sup><sup><a href="#r9">[9]</a></sup>, a megközelítés programadó összefoglalása Ruhl, Katz és Bommarito nevéhez fűződik<sup><a href="#r10">[10]</a></sup>. Ezek a munkák azonban jellemzően a <i>dokumentumok</i> hivatkozási hálózatát vizsgálják, nem a <i>fogalmakét</i>.</p>
+<p>A fogalmi oldalon a jogi ontológiák állnak: az LKIF-Core az alapvető jogi fogalmak OWL-modellje<sup><a href="#r11">[11]</a></sup><sup><a href="#r23">[23]</a></sup>, a SKOS a fogalmi rendszerek (tezauruszok, fogalomtárak) általános leírónyelve<sup><a href="#r12">[12]</a></sup>, az uniós gyakorlatban pedig az EuroVoc többnyelvű tezaurusz tölti be a közös fogalmi réteg szerepét<sup><a href="#r13">[13]</a></sup>. A dokumentum-oldalt az Akoma Ntoso / OASIS LegalDocML XML-szabvány<sup><a href="#r14">[14]</a></sup> ill. annak uniós változata, az AKN4EU<sup><a href="#r14">[14]</a></sup>, és az European Legislation Identifier (ELI) azonosítórendszer<sup><a href="#r15">[15]</a></sup> fedi le. A kettő összekötésére — jogi dokumentum, külső entitás és heterogén tudásbázis között — Barabucci, Di Iorio és Poggi az ALLOT ontológiát javasolja<sup><a href="#r16">[16]</a></sup>. Integrált rendszerként az Eunomos mutatja be, hogyan kapcsolható össze a jogszabály-XML, a fogalomtár és a naprakészen tartás<sup><a href="#r17">[17]</a></sup>.</p>
+<p>A jelen munka ezek közül a SKOS és az ELI szintjén illeszkedik: a verifikált fogalmi gerinc a SKOS tágabb/szűkebb viszonyának felel meg, a hivatkozás-élek a CiTO predikátumaiból kapják a megfelelőjüket (3.4. pont), a jogszabály-hivatkozások pedig ELI-azonosítón keresztül mutatnak a Nemzeti Jogszabálytárra.</p>
+
+<h3>2.4 Magyar előzmények</h3>
+<p>Magyar nyelvterületen a jogi szövegek gépi vizsgálatának úttörő összefoglalása Ződi Zsolt monográfiája a jogi adatbázisokról és a gépi forráskutatásról<sup><a href="#r18">[18]</a></sup>. Módszertanilag a legközelebbi hazai előzmény ugyanő hivatkozásmintázat-elemzése a magyar bíróságok ítéletein<sup><a href="#r19">[19]</a></sup>: ez mutatta meg, hogy a magyar jogi anyagon a hálózatos szemlélet érdemi állításokhoz vezet — miközben a korpusz lefedettsége (a publikált ítéletek aránya) önmagában is elsőrendű módszertani kérdés. Ződi jogi szövegtipológiája<sup><a href="#r20">[20]</a></sup> szolgáltatja azt a keretet, amelyben az „Értelmező rendelkezések" szakasz nem tetszőleges szövegrészlet, hanem önálló, felismerhető műfaji egység — ez az egész kinyerési eljárás előfeltevése.</p>
+<p>A magyar nyelvi feldolgozás eszközoldalán többek közt a HuSpaCy elemzőlánc<sup><a href="#r21">[21]</a></sup> és a Magyar Nemzeti Szövegtár<sup><a href="#r22">[22]</a></sup> áll rendelkezésre; utóbbi a jelen munkában nem csak segédeszköz, hanem <i>bizonyítékforrás</i> a köznyelviség eldöntéséhez (3.6. pont).</p>
+
+<h3>2.5 A hiány, amelyet a munka betölt</h3>
+<p>A fenti irodalomból három hiány rajzolódik ki. (i) A definíció-kinyerés eddigi munkái vagy más nyelvre, vagy más szövegtípusra (bírósági határozat, szerződés) irányultak — <b>magyar jogszabályi legáldefiníciókra teljes korpuszszinten nem</b>. (ii) A jogi hálózatelemzés a dokumentumok szintjén erős, a <b>fogalmak közötti tipizált relációk</b> szintjén ritkább. (iii) A definiálatlanul hagyott, mégis sokat hivatkozott fogalmak kérdését a szerződéses irodalom felveti<sup><a href="#r7">[7]</a></sup>, de <b>korpuszkülső nyelvi bizonyítékkal</b> nem támasztja alá. A jelen munka mindhárom ponton kísérel meg előrelépni.</p>
+
+<h2 id="s3">3. Anyag és módszer</h2>
+
+<h3>3.1 Forrás és lehatárolás</h3>
+<p><b>Elsődleges forrás:</b> a Magyar Közlöny PDF-kiadásai 2013. 05. 01. – 2026 között, kiegészítve három alapkódex korábbi kihirdetésével (3.7. pont).</p>
+<p><b>Kihirdetéskori (közlöny-)állapot.</b> A feldolgozás nem követi a módosításokat: minden definíció abban a formában szerepel, ahogy kihirdették</p>
+
+<h3>3.2 Szövegkinyerés</h3>
+<p>A PDF-ből tagolt szövegfájl lesz, majd a Közlöny-szám jogszabályonként külön fájlokra bomlik. A definíció-kinyerés ezt követően tisztán mintaillesztéssel dolgozik, nyelvi modell nélkül:</p>
+<ul>
+<li><b>szakaszhatár:</b> a <code>N. §</code> jelölő</li>
+<li><b>definíciós minták:</b> dőlt fogalomjelölés (a találatok 98,6%-a), kettőspontos tagolás, „X alatt Y-t kell érteni" fordulat, ragos bevezetés. A mintakészlet a Walter–Pinkal-féle megfigyeléssel egybevágóan zárt és leírható<sup><a href="#r4">[4]</a></sup>;</li>
+<li><b>záró határok:</b> a melléklet, a nemzetközi szerződések <code>CIKK</code>-jelölője és az aláírás-blokk mindig lezárja a keresést.</li>
+</ul>
+<p>A kinyerés a módosító idézeteket kihagyja, mert azok nem az adott jogszabály saját definíciói.</p>
+
+<h3>3.3 Normalizálás és fogalomösszevonás</h3>
+<p>Ugyanaz a fogalom sokszor szó szerint azonos szöveggel szerepel több jogszabályban (jellemzően pl. egy uniós rendelet átvétele). Az azonosításnál csak a szóközök és sortörések egységesülnek; az írásjel és a kis/nagybetű <b>nem</b>, mert jogi szövegben egy vessző is tartalmi különbség lehet. A törvénykönyv-nevek rövidítés↔teljes név megfeleltetése (<code>Ptk.</code> ↔ <code>Polgári Törvénykönyv</code>) és a mutatószavak egységesítése (<code>szerinti</code> / <code>-ban meghatározott</code> / <code>értelmében</code>) determinisztikus szabállyal történik.</p>
+
+<h3>3.4 Élek: zajszűrés és a verifikált fogalmi gerinc</h3>
+<p>Az élek első közelítésben lexikai egyezésből származnak: <code>A → B</code> él akkor keletkezik, ha <code>B</code> fogalom neve előfordul <code>A</code> definíciójának szövegében, szótári alapalakra visszavezetve (HuSpaCy <code>hu_core_news_lg</code><sup><a href="#r21">[21]</a></sup>), hogy a ragozás ne akadályozza az egyezést. Ez önmagában <b>nem</b> fogalmi kapcsolat, csak szóegyezés, ezért két külön mechanizmus dolgozik rajta: egy <b>zajszűrő</b>, amely a véletlen egyezéseket dobja ki, és egy <b>szerkezeti gerinc</b>, amely az ellenőrizhető is_a-viszonyokat mutatja.</p>
+<p><b>Zajszűrő.</b> Minden jelölt párra a GPT-4.1-mini<sup><a href="#r26">[26]</a></sup> páronként, zárt válaszkészletből osztályozza, hogy a szóegyezés mögött van-e egyáltalán tartalmi kapcsolat (<code>T=0</code>, néhány rögzített példával). A modell tehát nem generál és nem összegez, csak osztályoz — ez teszi a besorolást visszakereshetővé és utólag kézzel javíthatóvá; minden válasz CSV-naplóval együtt keletkezik. A szűrő a <i>kizáró</i> irányban megbízható: a „nincs kapcsolat" besorolások kézi mintán ~93%-ban helyesek. Megjegyzendő viszont, hogy a megtartott élek jelentős része mögött sincs valódi logikai viszony — a zajszűrő tehát a gráf <b>sűrűségét</b> javítja, a kapcsolat <b>jelentését</b> nem dönti el. Utóbbiért felel a gerinc.</p>
+<p><b>A fogalmi gerinc.</b> A szigorú is_a-viszonyokat a definíció <b>nyelvtani szerkezetéből</b> nyerjük, két forrásból:</p>
+<ul>
+<li><b>Genus-pozíció</b> — „az a ⟨X⟩, aki/amely…", illetve „olyan ⟨X⟩, amely…": a definiált fogalom az ⟨X⟩ szűkített esete. A jelöltet a kötni jelző előtti frázis adja; a frázisban vessző, kötőszó vagy tagadás nem állhat (azok felsorolást vagy fordított viszonyt jelentenek — mindkettő mintán mért hibaosztály volt).</li>
+<li><b>Puszta felsorolás</b> — „⟨X⟩: A, B és C" alakú definíció, fejszó nélkül: a tagok az ⟨X⟩ altípusai. A „lista + fejszó" alak („a szállodák, kempingek… <i>létesítménye</i>") kizárt, mert ott a tagok birtokosok, nem altípusok. Kizártak továbbá a ragozott tag-jelöltek: a -val/-vel, -nak/-nek, -tól/-től, -ban/-ben stb. toldékos alakok bővítmények („az állami vezetővel közös háztartásban élő házastárs"), nem altípusok. Mivel a puszta felsorolás tagjai között is maradhat rész–egész vagy eszköz-viszony, minden ilyen él a <b>behelyettesítéses próbán</b> esik át: helyben futtatott Racka-4B<sup><a href="#r25">[25]</a></sup> dönti el, hogy „a ⟨tag⟩ egy ⟨definiendum⟩" igaz-e (a jelöltek 59%-a ment át; ez a kézi mintán mért ~52%-kal összegyezhető). A genus-pozíciós élek modell-ellenőrzés nélkül kerülnek be: ott a szerkezeti bizonyíték maga a döntés.</li>
+<li><b>Fejszó-öröklés</b> — a magyar főnévi frázis feje az utolsó szava: a „csuklós jármű" járműfajta, az „igazságügyi alkalmazott" alkalmazott-fajta. Ez a forrás a definíció szövegétől független, a fogalom nevéből olvasható le, és pontosan azokat a viszonyokat fedi le, amelyeket a genus-pozíció szerkezeti okból nem érhet el (az „igazságügyi alkalmazott" definíciója például személyként fogalmaz, nem alkalmazottként). Az illesztés lemma-szintű (a láncban egyébként is jelen lévő HuSpaCy-szótövezéssel), így a ragozott és birtokos fejek („közjegyző alkalmazottja") is bekerülnek. <b>Ezek az élek alapból jelöltek, nem validáltak</b>: léteznek lexikalizálódott, nem kompozicionális összetételek. Ezért mindegyiken átment a Racka-4B behelyettesítéses próbája is: amelyiknél a modell is azt mondja, hogy „a ⟨gyerek⟩ egy ⟨szülő⟩" (76%), az megerősítetté lép elő; a többi jelölt marad, és a nézet elkülönítve jelöli (pontozott aláhúzás a hierarchia-sávban, ritkás pontszaggatás a gráfban, „JELÖLT" felirat a buboréksúgóban). A NEM-melt éleket szándékosan nem dobtuk el: a modell névpár-bizonyíték mellett tömegesen utasít vissza nyilvánvalóan igaz viszonyokat is (a mérési jegyzet 9. pontja), így az ő NEM-je önmagában nem cáfolat. Két ismert korlát: az egybeírt összetételek („nyugdíjaskorhatár") egyetlen szóalakként kimaradnak, és a címszerű fogalmaknál („a közalkalmazottak jogállásáról szóló törvény") az utolsó szó nem feltétlenül a tartalmi fej.</li>
+</ul>
+<p>Minden gerinc-élhez tároljuk a bizonyító mondatrészletet, és a nézetben a fogalom nevére húzott egérrel ez jelenik meg. A szabványos megfeleltetés itt a SKOS<sup><a href="#r12">[12]</a></sup>: a gerinc gyerek→szülő éle az <code>skos:broader</code>, fordítva az <code>skos:narrower</code> viszony. A szöveg-/dokumentumszintű átvétel-élek (amelyek nem fogalmi viszonyt jelentenek) determinisztikus szabállyal dőlnek el, és a bibliográfiai hivatkozásokra szakosodott CiTO<sup><a href="#r24">[24]</a></sup> predikátumaiba illeszkednek:</p>
+<table><thead><tr><th>él-fajta</th><th>szabványos megfelelő</th><th>jelentés</th></tr></thead><tbody>
+<tr><td>is_a (genus / fejszó / felsorolás-tag)</td><td><code>skos:broader</code> / <code>skos:narrower</code><sup><a href="#r12">[12]</a></sup></td><td>a gyerek a szülő altípusa; bizonyító mondatrészlettel vagy névpárral</td></tr>
+<tr><td>HIVATKOZIK</td><td><code>cito:cites</code><sup><a href="#r24">[24]</a></sup></td><td>átvétel (szó szerinti vagy közeli), determinisztikus szabály</td></tr>
+<tr><td>BŐVÍT</td><td><code>cito:extends</code><sup><a href="#r24">[24]</a></sup></td><td>átvétel + tartalmi kiegészítés, determinisztikus szabály</td></tr>
+<tr><td><i>zajszűrt lexikai él</i></td><td>—</td><td>a cél neve előfordul a forrás definíciójában; a jelentést a forrásmondat mutatja, gép nem címkézi</td></tr>
+</tbody></table>
+<p class="caption">1. táblázat. A nézetben megjelenő él-fajták és szabványos megfelelőik.</p>
+
+<h3>3.5 A láncban szereplő modellek</h3>
+<p>A láncban két nyelvi modell dolgozik, mindegyik zárt kérdésre, páronként:</p>
+<table><thead><tr><th>modell</th><th>szerep</th><th>ellenőrzés</th></tr></thead><tbody>
+<tr><td><b>GPT-4.1-mini</b> (OpenAI, OpenRouter API-n keresztül)<sup><a href="#r26">[26]</a></sup></td><td>a lexikai élek zajszűrése („nincs kapcsolat" besorolás), valamint a hídfogalom-jelöltek osztályozása</td><td>a kizáró irány kézi mintán ~93%-ban helyes; minden válasz CSV-naplózott, kézzel felülírható</td></tr>
+<tr><td><b>Racka-4B</b> (ELTE, Qwen3-4B alapon, LoRA-val továbbtanítva)<sup><a href="#r25">[25]</a></sup></td><td>helyben futtatva: a felsorolásból származó gerinc-él-jelöltek behelyettesítéses próbája („a ⟨tag⟩ egy ⟨definiendum⟩?")</td><td>a jelöltek 59%-át engedi át; a próba kérdése a bizonyíték-mondatrészletből közvetlenül leolvasható, kézzel is megfogalmazható</td></tr>
+</tbody></table>
+<p class="caption">2. táblázat. A láncban szereplő nyelvi modellek és szerepük.</p>
+<p><b>Licencmegjegyzés.</b> A Racka-4B CC BY-NC-SA 4.0 alatt érhető el (nem kereskedelmi, „így add tovább"), miközben a közzétett gyűjtemény CC BY 4.0 alatt jelenik meg. A Racka a láncban kizárólag bináris szűrőválaszokat ad a felsorolás-tagokról; a nézetben megjelenő szöveg és bizonyíték-idézet a Magyar Közlönyből származik, a modell szöveget nem állít elő.</p>
+<p><b>Több jelentés kezelése.</b> Egy fogalomnév több, egymástól független jelentést hordozhat: az „adatszolgáltató" négy különböző jogszabályban négy különböző dolgot jelent (borászat, távközlés, sport-nyilvántartás, tejágazat). A gráfban egyetlen csomópont felel meg neki, ezért minden él eltárolja, hogy <b>melyik definícióból és melyik jogszabályból</b> származik. Konkrét meghatározásra kattintva a kimenő élek a definíció szövegére, a bejövő élek a jogszabály azonosságára szűkülnek — így a négy jelentés környezete tisztán elkülönül.</p>
+<p><b>Az együttállás mint gyenge kapcsolat.</b> Ha egy fogalomnak kevés logikai kapcsolata van, a gráf kiegészül az ugyanabban a jogszabályban <i>együtt definiált</i> fogalmakkal. Ez nem logikai viszony, ezért vizuálisan is elkülönül (halvány, szaggatott él), de valódi információ: egy fogalom szomszédsága a saját jogszabályán belül logikus értelmezési kontextus.</p>
+
+<h3>3.6 Hídfogalmak azonosítása</h3>
+<p><b>Definíció.</b> Hídfogalom-jelölt az a kifejezés, amely legalább három <b>különböző</b> definíció szövegében előfordul, főnév, és nincs saját meghatározása a korpuszban.</p>
+<p>A nyers jelöltlista tele van köznyelvi zajjal, ezért négy szűrő dolgozik rajta:</p>
+<ol>
+<li><b>Korpuszgyakoriság</b> — a Magyar Nemzeti Szövegtár (HNC 1.3<sup><a href="#r22">[22]</a></sup>) leggyakoribb 6000 szótári alapalakja kiesik. Ez fogja meg az „ipar", „piac", „június", „törvény" típusú zajt.</li>
+<li><b>Szótári ellenőrzés</b> — ami nem valódi magyar szótári szó, az kiesik. Ez zárja ki a jogszabály-rövidítéseket (<code>Ptk</code>, <code>Kft</code>, <code>Hszt</code>) és az idegen glosszaszavakat (<code>aircraft</code>, <code>area</code>).</li>
+<li><b>Nyelvi modell</b> — a maradék 1 080 jelölt mindegyike ugyanazzal az osztályozóval készül: <b>GPT-4.1-mini</b><sup><a href="#r26">[26]</a></sup>, <code>T=0</code>, zárt válaszkészletből egyetlen szavas válasz.</li>
+<li><b>Kézi felülírás</b> — külön fájlban rögzített javítások a gépi besorolás fölé. A gépi feloldás magyar szövegen sosem hibátlan, és ilyenkor az egysoros javítás olcsóbb, mint a szabályok további finomítása.</li>
+</ol>
+<p><b>Rövidítések feloldása.</b> A jelöltek egy része betűszó (<code>NSR</code>, <code>EESZT</code>). Ezek feloldása nem találgatás: a jogszabály maga megadja a <code>(a továbbiakban: NSR)</code> fordulattal. A teljes név határát akronim-illesztés adja meg, a magyar kétjegyű betűket (cs, gy, ly, ny, ty, sz, zs) egyetlen betűként kezelve — enélkül az <code>ASZK = Agrár Széchenyi Kártya</code> illesztés elromlik. Ha a feloldás maga is jogszabálycím, a rövidítés kiesik: a jogszabálynév jelen esetben nem fogalom.</p>
+<p><b>Köznyelviség mérése.</b> A K3 kérdés megválaszolásához két, egymástól független, <i>korpuszon kívüli</i> bizonyítékforrást használunk: (a) a HNC műfaji megoszlását — a fogalom előfordulásainak hány százaléka esik sajtó/szépirodalom/személyes szövegre a hivatalos/tudományos regiszterrel szemben; (b) a <i>Open Source Hungarian Thesaurus</i> v1.0 magyar szinonimaszótárat<sup><a href="#r27">[27]</a></sup> (a LibreOffice <code>hu_HU</code> szótárcsomag <code>th_hu_HU_v2</code> állománya) — van-e a szónak köznyelvi szócikke. A két forrás egybehangzó negatív jelzése adja a „kettősen megerősített" halmazt (4.3. pont).</p>
+
+<h3>3.7 Alapkódexek beemelése</h3>
+<p>A hídfogalom-elemzés torzul, ha egy fogalom azért tűnik definiálatlannak, mert a definíciója a korpuszhatáron kívülre esik. A három leggyakrabban hivatkozott kódex ezért külön bekerült a saját kihirdetéséből:</p>
+<table><thead><tr><th>kódex</th><th>kihirdetés</th><th></th></tr></thead><tbody>
+<tr><td>Ptk. — 2013. évi V. törvény</td><td>MK 2013/31 (2013-02-26)</td><td></td></tr>
+<tr><td>Btk. — 2012. évi C. törvény</td><td>MK 2012/92 (2012-07-13)</td><td></td></tr>
+<tr><td>Mt. — 2012. évi I. törvény</td><td>MK 2012/2 (2012-01-06)</td><td></td></tr>
+</tbody></table>
+<p class="caption">3. táblázat. A korpuszhatáron kívülről beemelt alapkódexek.</p>
+<p>A Ptk. a jogszabály-katalógusból hiányzott (a 2013. évi I–IV. és VII–X. törvény szerepel benne, az V. és VI. nem), ezért metaadatai külön, dokumentált kiegészítő fájlból származnak — idegen projekt adatbázisának módosítása nélkül.</p>
+
+<h3>3.8 Külső források és licenszek</h3>
+<table><thead><tr><th>forrás</th><th>felhasználás</th><th>licenc / feltétel</th></tr></thead><tbody>
+<tr><td>Magyar Közlöny PDF</td><td>elsődleges szövegforrás</td><td>hivatalos lap, közérdekű adat</td></tr>
+<tr><td>HNC 1.3 (Magyar Nemzeti Szövegtár)<sup><a href="#r22">[22]</a></sup></td><td>szógyakoriság, műfaji megoszlás</td><td>kutatási felhasználás</td></tr>
+<tr><td>Open Source Hungarian Thesaurus v1.0 (LibreOffice <code>hu_HU</code>)<sup><a href="#r27">[27]</a></sup></td><td>köznyelviség kontroll</td><td>GPL v2 — © Németh László, 2009</td></tr>
+<tr><td>Magyar Ispell / Hunspell <code>hu_HU</code> helyesírási szótár, v1.9 (LibreOffice)<sup><a href="#r28">[28]</a></sup></td><td>szóalak-ellenőrzés</td><td>MPLv2 vagy LGPLv3+ — © Németh László és Godó Ferenc, 2025; a Hunspell motor<sup><a href="#r29">[29]</a></sup> GPL/LGPL/MPL hármas licenc alatt</td></tr>
+<tr><td>HuSpaCy <code>hu_core_news_lg</code><sup><a href="#r21">[21]</a></sup></td><td>szótövezés, szófaji címkézés</td><td>Apache-2.0 (modell: CC BY-SA)</td></tr>
+<tr><td>Racka-4B (ELTE)<sup><a href="#r25">[25]</a></sup></td><td>a felsorolásból származó gerinc-élek behelyettesítéses igazolása, helyben futtatva (3.4–3.5. pont)</td><td><b>CC BY-NC-SA 4.0</b> (nem kereskedelmi); alapmodell: Qwen3-4B, Apache-2.0</td></tr>
+<tr><td>GPT-4.1-mini (OpenAI), OpenRouter API<sup><a href="#r26">[26]</a></sup></td><td>a lexikai élek zajszűrése, valamint a hídfogalom-jelöltek osztályozója</td><td>fizetett API-használat</td></tr>
+</tbody></table>
+<p class="caption">4. táblázat. Felhasznált külső források és felhasználási feltételeik.</p>
+<p><b>Amit tudatosan nem használtunk.</b> Több kézenfekvő forrás felhasználási feltételei kizárják a tömeges gépi feldolgozást vagy az adatbázis-építést — függetlenül attól, hogy a tartalom emberi olvasásra szabadon elérhető. Ezeket a forrásokat a munka nem érinti; a fenti táblázat teljes. A licenszkérdést minden forrásnál a <i>tényleges felhasználási feltétel</i> döntötte el, nem a technikai hozzáférhetőség: a <code>robots.txt</code> engedékenysége önmagában nem engedély, és a hiánya sem az.</p>
+
+<h3>3.9 Reprodukálhatóság és ellenőrzés</h3>
+<p>A feldolgozási lánc lépései külön szkriptekben futnak, köztes kimenetük soronként egy JSON-objektumot tartalmazó (JSONL) fájl, tehát minden közbenső állapot megőrződik és összevethető. A kinyerés helyességét a projekt saját, <b>független</b> feldolgozási útvonala ellenőrzi: ugyanezen PDF-ekből egy másik motor is előállítja a jogszabályok szövegét, és a két eredmény szó szerint összevethető (4.4. pont). A jogszabály-hivatkozások ELI-azonosítót<sup><a href="#r15">[15]</a></sup> használnak, így a forrásszöveg minden állításnál visszakereshető.</p>
+
+<h2 id="s4">4. Eredmények</h2>
+
+<h3>4.1 A korpusz</h3>
+<table><thead><tr><th>mutató</th><th>érték</th></tr></thead><tbody>
+<tr><td>feldolgozott Közlöny-dokumentum</td><td>16 290</td></tr>
+<tr><td>definíciót adó jogszabály</td><td>1 546</td></tr>
+<tr><td>kinyert definíció (nyers)</td><td>19 235</td></tr>
+<tr><td>hatályos jogszabályból (a közzétett gyűjteményben)</td><td>14 417</td></tr>
+<tr><td>egyedi fogalom (szótövezve)</td><td>9 399</td></tr>
+<tr><td>kereshető fogalom a viewerben</td><td>9 125</td></tr>
+<tr><td>ELI-hivatkozással ellátva</td><td>100%</td></tr>
+</tbody></table>
+<p class="caption">5. táblázat. A korpusz alapmutatói.</p>
+
+<h3>4.2 A fogalmi háló</h3>
+<table><thead><tr><th>mutató</th><th>érték</th></tr></thead><tbody>
+<tr><td>csomópont (minden definiált fogalom)</td><td>9 642</td></tr>
+<tr><td>nyers lexikai él (szóegyezés, szűrés nélkül)</td><td>37 709</td></tr>
+<tr><td>zajszűrés után megtartott él</td><td>10 016 (<b>26,6%</b>)</td></tr>
+<tr><td>ebből HIVATKOZIK / BŐVÍT (determinisztikus szabályból)</td><td>740</td></tr>
+<tr><td><b>is_a-gerinc él</b> (szerkezeti bizonyítékkal)</td><td><b>4133</b></td></tr>
+<tr><td>&nbsp;&nbsp;ebből genus-pozícióból</td><td>553</td></tr>
+<tr><td>&nbsp;&nbsp;ebből fejszó-örökléssel, Racka-4B-vel megerősítve</td><td>2433</td></tr>
+<tr><td>&nbsp;&nbsp;ebből fejszó-örökléssel, <b>jelölt</b> (nem validált)</td><td>749</td></tr>
+<tr><td>&nbsp;&nbsp;ebből igazolt felsorolás-tag</td><td>398</td></tr>
+<tr><td>együtt definiált fogalomcsoport (jogszabályonként)</td><td>1 014</td></tr>
+<tr><td>bármilyen kapcsolattal (az együtt-definiáltságot is beleértve)</td><td>97,0%</td></tr>
+</tbody></table>
+<p class="caption">6. táblázat. A fogalmi háló mutatói.</p>
+<p>A legfontosabb szám itt a <b>26,6%</b>: a puszta szóegyezésből származó élek 73,4%-a esik ki a zajszűrőn, és a kiszűrt élek kézi mintán ~93%-ban tényleg véletlen egyezések. Aki a lexikai egyezést szűrés nélkül fogalmi kapcsolatnak tekinti, több mint háromszorosan túlbecsüli a háló sűrűségét. A 4133 gerinc-él ezzel szemben nem ítélet, hanem szerkezeti tény: mindegyikhez ott a bizonyító mondatrészlet vagy a bizonyító fogalomnév, és a nézetben ez jelenik meg a fogalom hierarchia-sávjában (tágabb/szűkebb fogalmak, kibontható fa).</p>
+
+<h3>4.3 Hídfogalmak</h3>
+<p>A négylépcsős szűrés végén 1 080 jelöltből <b>261</b> hídfogalom maradt. Példák: <code>zálogjog</code>, <code>cselekvőképesség</code>, <code>adásvétel</code>, <code>deviza</code>, <code>közokirat</code>, <code>elzárás</code>, <code>nevelőszülő</code>, <code>ivóvíz</code>, <code>termőföld</code>, <code>államhatár</code>.</p>
+<p>A köznyelviség két független forrás alapján. A regiszterbesorolás küszöbe 50%, és csak a legalább tíz korpusz-előfordulással bíró fogalmakat tekintjük mérhetőnek:</p>
+<table><thead><tr><th>kategória</th><th>db</th><th>arány</th></tr></thead><tbody>
+<tr><td>a HNC szerint többségében sajtó/szépirodalom/személyes szövegben él</td><td>164</td><td>62,8%</td></tr>
+<tr><td>többségében hivatalos/tudományos szövegben él</td><td>79</td><td>30,3%</td></tr>
+<tr><td>nincs elég korpusz-előfordulás a méréshez</td><td>18</td><td>6,8%</td></tr>
+</tbody></table>
+<p class="caption">7. táblázat. A hídfogalmak regiszter szerinti megoszlása a Magyar Nemzeti Szövegtár műfaji címkéi alapján.</p>
+<p>A két véglet meggyőzően különválik: <code>terrorizmus</code> 95,8%, <code>incidens</code> 94,2%, <code>dugvány</code> 92,1%, <code>hadiállapot</code> 90,1% — velük szemben <code>hőteljesítmény</code> 1,6%, <code>területrész</code> 4,4%, <code>hőtermelő</code> 9,0%, <code>zálogjog</code> 11,2%, <code>adóalany</code> 16,6%. A mérés tehát nem folytonos szürkeséget ad, hanem elkülönülő csoportokat, ami a küszöbválasztást kevéssé érzékennyé teszi.</p>
+<p><b>Kettős megerősítés.</b> A HNC-mérést a magyar szinonimaszótár<sup><a href="#r27">[27]</a></sup> ellenőrzi. <b>63 fogalom</b> esetében <i>mindkét</i> forrás azt mutatja, hogy nem köznyelvi — a szövegtárban hivatalos regiszterű, a szinonimaszótárban nincs szócikke —, miközben egyetlen hivatkozó jogszabály sem definiálja őket. (További négy, többszavas fogalomnál a mérés a fejszóból becsült, ezért ezeket nem soroljuk ide.) Ez a 63-as halmaz a munka legerősebb K3-válasza.</p>
+
+<h3>4.4 Keresztellenőrzés</h3>
+<p>A független feldolgozási útvonallal összevetve a lefedett körben a definíciók <b>92,6%-a</b> egyezik szó szerint. Az eltérések mintavételes vizsgálata során talált hibák a jogszabály-katalógus azonosítókezeléséből származtak, nem a kinyerésből — azaz a szövegoldali eljárás a mért körben stabil, a maradék hiba a metaadat-illesztésben keletkezik.</p>
+
+<h2 id="s5">5. Megbeszélés</h2>
+
+<p><b>Mit mutat meg a háló (K1, K2):</b> A gráf két rétege külön olvasandó. A zajszűrt lexikai élek azt mutatják, hol érdemes utánanézni — a jelentésüket nem gép címkézi, hanem az élre kattintva előjövő forrásmondat dönti el. A gerinc-élek viszont ellenőrzött viszonyok: a hierarchia-sávban látszik, hogy egy fogalom minek a fajtája (szűkítése), és mik a fajtái (szűkítései, elemei). A több jelentésű fogalmaknál a jelentések elkülönülnek, tehát az „adatszolgáltató" nem egyetlen, összemosott csomópont. Ez az a szint, amelyen a redundancia kérdése értelmesen feltehető: az eltérő szövegek egy része ugyanis pusztán ugyanarra a szabályra mutat, más-más idézési stílusban — ezt a HIVATKOZIK/BŐVÍT elkülönítése teszi láthatóvá.</p>
+
+<p><b>A hídfogalmak kettős természete (K3).</b> A 62,8%-os köznyelvi arány azt támasztja alá, hogy a jogalkotó jellemzően <i>nem</i> hanyagságból hagy definiálatlanul egy fogalmat, hanem mert a köznyelvi jelentésre támaszkodik — ez a jogalkotás szükségszerű gyakorlata, és pontosan az a mechanizmus, amit Hart nyitott szövedékként ír le<sup><a href="#r1">[1]</a></sup>. A kettősen megerősített 63 fogalom azonban más természetű: ezek szakkifejezések, amelyek nem élnek a köznyelvben, és amelyek jelentését a jogalkalmazónak máshonnan kell beszereznie. Ez a halmaz az, ahol a normavilágossági kifogás<sup><a href="#r3">[3]</a></sup> empirikusan megalapozható — nem intuíció, hanem két független nyelvi mérés alapján.</p>
+
+<p><b>Módszertani tanulság.</b> A munka tervezési elve, hogy a nyelvi modell akkor dolgozik jogi korpuszon, ha (i) <i>zárt válaszkészletből</i> választ, (ii) <i>páronként</i> hívjuk, nem összegzésre, és (iii) a válasza <i>kézzel felülírható</i> és visszakereshető marad. Ahol szabad szöveg vagy folytonos hasonlóság kellene, ott determinisztikus szabály dolgozik. Ugyanez az elv választja szét a két megjelenítési réteget is: ami a nézetben állításként szerepel (a fogalmi gerinc), az szerkezeti bizonyítékból épül, a modell pedig csak szűrő- és igazolófeladatot kap — olyat, amelynek a kérdése a forrásmondatból közvetlenül leolvasható.</p>
+
+<p><b>Viszony az irodalomhoz.</b> A definíciós hálózat log-normális fokszámeloszlása, amelyet Curtotti és társai szerződéseken figyeltek meg<sup><a href="#r7">[7]</a></sup>, itt jogszabályi anyagon is megjelenő szerkezetet sejtet — ennek formális igazolása azonban még hátravan (7. pont). A hídfogalom mint jelenség a szerződéses irodalom „rejtett jelentés" megfigyelésének<sup><a href="#r7">[7]</a></sup> jogszabályi megfelelője, azzal a különbséggel, hogy itt a definiálatlanság nem a dokumentumon belüli, hanem a <i>jogrendszer szintjén</i> értelmezett hiány. Ződi hivatkozásmintázat-elemzéséhez<sup><a href="#r19">[19]</a></sup> képest a jelen munka más rétegre néz — dokumentumok helyett fogalmakra —, de ugyanazt a módszertani tanulságot erősíti: a korpusz lefedettsége és lehatárolása az eredmény érvényességének elsőrendű kérdése.</p>
+
+<h2 id="s6">6. Korlátok</h2>
+
+<ul>
+<li><b>A 63-as szám felső becslés.</b> Része olyan fogalom (<code>zálogjog</code>, <code>adóalany</code>, <code>esedékesség</code>), amelyet valamely alapkódex meghatároz. A három legfontosabb kódex beemelése (3.7. pont) ezt már csökkentette, de a teljes képhez további kódexek kellenének.</li>
+<li><b>Mintafüggő kinyerés.</b> Az eljárás az „Értelmező rendelkezések" műfaji mintára épül<sup><a href="#r20">[20]</a></sup>. Az a jogszabály, amely a fogalmait folyó szövegben határozza meg — például az általános közigazgatási rendtartás —, definíció nélkül marad. A Ptk. esete (3.2. pont) megmutatta, hogy ez a hibamód <b>néma</b>: nem hibás kimenetet ad, hanem üreset.</li>
+<li><b>Korpuszhatár.</b> A 2013. 05. 01. előtti anyag feldolgozása során a hiányzó jogszabályok definíciói részben előkerülhetnek, addig tévesen hídfogalomnak tűnhetnek.</li>
+<li><b>Kihirdetéskori állapot.</b> A gyűjtemény nem követi a módosításokat, tehát hatályos szöveg helyett kihirdetett szöveget mutat; a hatályos tartalomhoz a Nemzeti Jogszabálytár ELI-hivatkozása vezet.</li>
+<li><b>Metaadat-függés.</b> A keresztellenőrzés maradék hibái a jogszabály-katalógus azonosítókezeléséből erednek, amely külső komponens; ennek javítása nem e munka hatókörében van.</li>
+<li><b>A gépi besorolások nem minősülnek jogi értelmezésnek.</b> A zajszűrés, a hídfogalom-besorolás és a felsorolás-tagok behelyettesítéses próbája gépi osztályozás, kézi felülírási lehetőséggel; a gerinc-élekhez a bizonyító mondatrészlet tartozik. A modell-alapú szűrések ráadásul nem bitreprodukálhatók — ezért hordoz minden megjelenített állítás szerkezeti bizonyítékot vagy idézetet. Jogi következtetés levonásához a konkrét eset forrásszövegének ellenőrzése szükséges.</li>
+</ul>
+
+<h2 id="s7">7. Következtetések és további irányok</h2>
+
+<p>A munka megmutatta, hogy magyar jogszabályi korpuszon (i) a legáldefiníciók teljes körű, determinisztikus kinyerése megvalósítható és keresztellenőrizhető (92,6%), (ii) a nyers lexikai élek zajszűrése nélkül a háló sűrűsége háromszorosan túlbecsült, a fogalmi gerinc pedig szerkezeti bizonyítékból, verifikálhatóan építhető, és (iii) a definiálatlanul hagyott, sokat hivatkozott fogalmak köznyelvi vagy szakmai jellege korpuszkülső nyelvi bizonyítékkal eldönthető.</p>
+
+<p>Kézenfekvő folytatások:</p>
+<ol>
+<li><b>Átfedés az EuroVoc tezaurusszal</b><sup><a href="#r13">[13]</a></sup> — mely magyar legáldefiníciók feleltethetők meg uniós tezaurusz-fogalmaknak, és hol tér el a magyar fogalomhasználat az uniós közös rétegtől. Ez egyben a hídfogalom-halmaz külső validációja is.</li>
+<li><b>SKOS-exportálás</b><sup><a href="#r12">[12]</a></sup> — a háló publikálása szabványos fogalmi séma formájában, ELI-hivatkozásokkal, hogy más rendszerek is hivatkozhassanak rá.</li>
+<li><b>A teljes háló hálózatstatisztikai elemzése</b> — fokszámeloszlás, komponensszerkezet, központiság; összevetés a szerződéses<sup><a href="#r7">[7]</a></sup> és a jogszabályi hivatkozáshálózatokkal<sup><a href="#r9">[9]</a></sup>.</li>
+<li><b>Korpuszbővítés visszamenőleg</b> — a hídfogalom-becslést lényegesen szűkítené.</li>
+<li><b>Emberi annotációs kiértékelés</b> — a gerinc-élek pontosságának mérése független jogász annotátorokkal (jelenleg a fejlesztői kézi minták és a behelyettesítéses próba áll rendelkezésre), külön bontva a genus- és a felsorolás-ágon.</li>
+</ol>
+
+<hr>
+
+<h2 id="hiv">Hivatkozások</h2>
+<ol class="refs">
+<li id="r1">Hart, H. L. A.: <i>The Concept of Law.</i> 2. kiadás. Clarendon Press, Oxford, 1994 (1. kiadás 1961). — a „nyitott szövedék" (open texture) fogalma.</li>
+<li id="r2">Endicott, T. A. O.: <i>Vagueness in Law.</i> Oxford University Press, Oxford, 2000.</li>
+<li id="r3">Manhertz Tamás István: A normavilágossággal összefüggő problémák alkotmánybírósági kezelése. <i>KözigazgatásTudomány</i>, 4. évf. (2024) 2. sz., 85–110. DOI: <a href="https://doi.org/10.54200/kt.v4i2.88">10.54200/kt.v4i2.88</a>. — Hivatkozott döntések: 9/1992. (I. 30.) AB hat., 11/1992. (III. 5.) AB hat., 26/1992. (IV. 30.) AB hat., 30/1992. (V. 26.) AB hat., 1160/B/1992 AB hat.</li>
+<li id="r4">Walter, S. – Pinkal, M.: Automatic Extraction of Definitions from German Court Decisions. In: <i>Proceedings of the Workshop on Information Extraction Beyond The Document</i> (COLING/ACL 2006), Sydney, 20–28. <a href="https://aclanthology.org/W06-0203.pdf">aclanthology.org/W06-0203</a></li>
+<li id="r5">Winkels, R. – Hoekstra, R.: Automatic Extraction of Legal Concepts and Definitions. In: <i>Legal Knowledge and Information Systems (JURIX 2012).</i> IOS Press, Amsterdam, 2012. <a href="https://research.vu.nl/en/publications/automatic-extraction-of-legal-concepts-and-definitions/">research.vu.nl</a></li>
+<li id="r6">Curtotti, M. – McCreath, E.: A corpus of Australian contract language: description, profiling and analysis. In: <i>Proceedings of the 13th International Conference on Artificial Intelligence and Law (ICAIL '11).</i> ACM, 199–208. DOI: <a href="https://doi.org/10.1145/2018358.2018387">10.1145/2018358.2018387</a></li>
+<li id="r7">Curtotti, M. – McCreath, E. – Sridharan, S.: Software Tools for the Visualization of Definition Networks in Legal Contracts. In: <i>Proceedings of the 14th International Conference on Artificial Intelligence and Law (ICAIL '13).</i> ACM, 2013. <a href="https://users.cecs.anu.edu.au/~Eric.McCreath/papers/ICAIL2013visual.pdf">users.cecs.anu.edu.au</a></li>
+<li id="r8">Bommarito, M. J. – Katz, D. M.: A Mathematical Approach to the Study of the United States Code. <i>Physica A: Statistical Mechanics and its Applications</i>, 389 (2010) 19, 4195–4200. arXiv: <a href="https://arxiv.org/abs/1003.4146">1003.4146</a></li>
+<li id="r9">Katz, D. M. – Bommarito, M. J.: Measuring the complexity of the law: the United States Code. <i>Artificial Intelligence and Law</i>, 22 (2014) 4, 337–374. DOI: <a href="https://doi.org/10.1007/s10506-014-9160-8">10.1007/s10506-014-9160-8</a></li>
+<li id="r10">Ruhl, J. B. – Katz, D. M. – Bommarito, M. J.: Harnessing legal complexity. <i>Science</i>, 355 (2017) 6332, 1377–1378. DOI: <a href="https://doi.org/10.1126/science.aag3013">10.1126/science.aag3013</a></li>
+<li id="r11">Hoekstra, R. – Breuker, J. – Di Bello, M. – Boer, A.: The LKIF Core Ontology of Basic Legal Concepts. In: <i>Proceedings of LOAIT 2007.</i> CEUR-WS Vol-321, 43–63. <a href="https://ceur-ws.org/Vol-321/paper3.pdf">ceur-ws.org/Vol-321/paper3.pdf</a></li>
+<li id="r12">Miles, A. – Bechhofer, S. (szerk.): <i>SKOS Simple Knowledge Organization System Reference.</i> W3C Recommendation, 2009. augusztus 18. <a href="https://www.w3.org/TR/skos-reference/">w3.org/TR/skos-reference</a></li>
+<li id="r13">Steinberger, R. – Ebrahim, M. – Turchi, M.: JRC EuroVoc Indexer JEX — A freely available multi-label categorisation tool. In: <i>Proceedings of LREC 2012.</i> arXiv: <a href="https://arxiv.org/abs/1309.5223">1309.5223</a>. Tezaurusz: <a href="https://op.europa.eu/en/web/eu-vocabularies">EuroVoc, EU Vocabularies</a>.</li>
+<li id="r14">OASIS: <i>Akoma Ntoso Version 1.0 — Part 1: XML Vocabulary.</i> OASIS Standard, 2018. <a href="https://docs.oasis-open.org/legaldocml/akn-core/v1.0/akn-core-v1.0-part1-vocabulary.html">docs.oasis-open.org</a>. — Uniós változata: <b>AKN4EU</b> (Akoma Ntoso for the European Union), az EU Publications Office szabványosított jogszabály-jelölő formátuma. <a href="https://op.europa.eu/en/web/eu-vocabularies/akn4eu">op.europa.eu/en/web/eu-vocabularies/akn4eu</a>; dokumentáció (3.0, 2020): <a href="https://op.europa.eu/documents/3938058/7067425/AKN4EU+3.0+Documentation+-+Volume+II+-+XML+markup+-+Part+1+-+Part+2.pdf">Volume II — XML mark-up</a>; áttekintés: <a href="https://interoperable-europe.ec.europa.eu/collection/semic-support-centre/solution/common-structured-format-eu-legislative-documents/discover-akn4eu">Interoperable Europe Portal</a></li>
+<li id="r15">A Tanács következtetései a jogszabályok európai azonosítójáról (ELI), HL C 325., 2012. 10. 26., 3–11. <a href="https://eur-lex.europa.eu/legal-content/HU/TXT/?uri=CELEX:52012XG1026(01)">eur-lex.europa.eu — 52012XG1026(01)</a></li>
+<li id="r16">Barabucci, G. – Di Iorio, A. – Poggi, F.: Bridging legal documents, external entities and heterogeneous KBs: from meta-model to implementation. <i>Semantic Web Journal</i> (benyújtott kézirat), 2012.</li>
+<li id="r17">Boella, G. – Di Caro, L. – Humphreys, L. – Robaldo, L. – Rossi, P. – van der Torre, L.: Eunomos, a legal document and knowledge management system for the Web to provide relevant, reliable and up-to-date information on the law. <i>Artificial Intelligence and Law</i>, 24 (2016) 3, 245–283. DOI: <a href="https://doi.org/10.1007/s10506-016-9184-3">10.1007/s10506-016-9184-3</a></li>
+<li id="r18">Ződi Zsolt: <i>Jogi adatbázisok és jogi forráskutatás. Gépek a jogban.</i> Gondolat Kiadó (Diké sorozat), Budapest, 2012.</li>
+<li id="r19">Ződi Zsolt: A korábbi esetekre történő hivatkozások mintázatai a magyar bíróságok ítéleteiben. <i>MTA Law Working Papers</i>, 2014/01. <a href="https://real.mtak.hu/18350/1/mta_law_workig_paper_2014_01_zodi_zsolt.pdf">real.mtak.hu</a></li>
+<li id="r20">Ződi Zsolt: Jogi szövegtípusok. <i>Magyar Jogi Nyelv</i>, 2017/2, 20–29. <a href="https://joginyelv.hu/jogi-szovegtipusok/">joginyelv.hu</a></li>
+<li id="r21">Orosz Gy. – Szántó Zs. – Berkecz P. – Szabó G. – Farkas R.: HuSpaCy: an Industrial-Strength Hungarian Natural Language Processing Toolkit. arXiv:<a href="https://arxiv.org/abs/2201.01956">2201.01956</a>, 2022. Modell: <code>hu_core_news_lg</code>.</li>
+<li id="r22">Oravecz Cs. – Váradi T. – Sass B.: The Hungarian Gigaword Corpus. In: <i>Proceedings of LREC 2014.</i> ELRA, 1719–1723. <a href="https://aclanthology.org/L14-1536/">aclanthology.org/L14-1536</a>. Elérhető: <a href="https://nytud.hu/adatforras/magyar-nemzeti-szovegtar">Magyar Nemzeti Szövegtár</a>.</li>
+<li id="r23">Cyganiak, R. – Wood, D. – Lanthaler, M. (szerk.): <i>RDF 1.1 Concepts and Abstract Syntax.</i> W3C Recommendation, 2014. február 25. <a href="https://www.w3.org/TR/rdf11-concepts/">w3.org/TR/rdf11-concepts</a>. — Brickley, D. – Guha, R. V. (szerk.): <i>RDF Schema 1.1.</i> W3C Recommendation, 2014. február 25. <a href="https://www.w3.org/TR/rdf-schema/">w3.org/TR/rdf-schema</a>. — W3C OWL Working Group: <i>OWL 2 Web Ontology Language Document Overview (Second Edition).</i> W3C Recommendation, 2012. december 11. <a href="https://www.w3.org/TR/owl2-overview/">w3.org/TR/owl2-overview</a>.</li>
+<li id="r24">Shotton, D.: CiTO, the Citation Typing Ontology. <i>Journal of Biomedical Semantics</i>, 1 (2010) Suppl. 1, S6. DOI: <a href="https://doi.org/10.1186/2041-1480-1-S1-S6">10.1186/2041-1480-1-S1-S6</a>. Rész a SPAR Ontologies csomagból: <a href="https://sparontologies.github.io/cito/current/cito.html">sparontologies.github.io/cito</a>.</li>
+<li id="r25">Csibi Zs. – Gortka B. Gy. – Gyöngyössy N. – Nagy K. – Nemeskey D. M. – Palkó G. – Sallai M. – Simonyi A. – Szekeres A. M.: Racka: Efficient Hungarian LLM Adaptation on Academic Infrastructure. In: <i>XXII. Magyar Számítógépes Nyelvészeti Konferencia (MSZNY 2026)</i>, Szeged, 2026. január 29–30., 17–36. (a szerzők betűrendben) Preprint: arXiv:<a href="https://arxiv.org/abs/2601.01244">2601.01244</a>. Modell: <a href="https://huggingface.co/elte-nlp/Racka-4B">elte-nlp/Racka-4B</a>, CC BY-NC-SA 4.0, Qwen3-4B alapon, LoRA-val továbbtanítva 160 milliárd szubszó-tokenen (44% magyar).</li>
+<li id="r26">OpenAI: <i>Introducing GPT-4.1 in the API.</i> 2025. április 14. <a href="https://openai.com/index/gpt-4-1/">openai.com/index/gpt-4-1</a>. A jelen munkában a <code>gpt-4.1-mini</code> változat, OpenRouter API-n keresztül, <code>temperature=0</code> beállítással.</li>
+<li id="r27">Németh László: <i>Open Source Hungarian Thesaurus, version 1.0.</i> 2009. február 3. GNU GPL v2. A LibreOffice <code>hu_HU</code> szótárcsomag <code>th_hu_HU_v2</code> állománya. <a href="https://github.com/LibreOffice/dictionaries/tree/master/hu_HU">github.com/LibreOffice/dictionaries</a></li>
+<li id="r28">Németh László – Godó Ferenc: <i>Magyar Ispell — magyar helyesírási szótár (Hunspell <code>hu_HU</code>), v1.9.</i> 2025. MPLv2 vagy LGPLv3+. <a href="https://magyarispell.sourceforge.net/">magyarispell.sourceforge.net</a>, <a href="https://github.com/laszlonemeth/magyarispell">github.com/laszlonemeth/magyarispell</a></li>
+<li id="r29">Németh L. – Trón V. – Halácsy P. – Kornai A. – Rung A. – Szakadát I.: Leveraging the Open Source Ispell Codebase for Minority Language Analysis. In: <i>Proceedings of the SALTMIL Workshop, LREC 2004</i>, Lisszabon. — a Hunspell helyesírás-ellenőrző alapját ismertető közlemény; a motor GPL/LGPL/MPL hármas licenc alatt: <a href="https://github.com/hunspell/hunspell">github.com/hunspell/hunspell</a></li>
+<li id="r30">Szabó Miklós: A jogi nyelv sajátszerűsége. <i>Magyar Jogi Nyelv</i>, 9. évf. (2025) 2. sz., 1–?. DOI: <a href="https://doi.org/10.59851/mjny.9.2.1">10.59851/mjny.9.2.1</a>. Elérhető: <a href="https://joginyelv.hu/a-jogi-nyelv-sajatszerusege%C2%B9/">joginyelv.hu</a></li>
+</ol>
+
+<hr>
+<h3>Adat- és kódelérhetőség</h3>
+<p>A kinyert adat és az összeállítás CC BY 4.0 licenc alatt szabadon felhasználható, forrásmegjelöléssel; maga a jogszabályszöveg nem áll szerzői jogi védelem alatt. A <code>hjusdefs.html</code> <b>önálló fájl</b>: a keresőmotor, a gráfelrendező könyvtár és a teljes adat is bele van ágyazva, ezért megnyitáskor <b>semmilyen külső szolgáltatást nem hív meg</b> — nincs CDN-betöltés, nincs webfont, nincs mérőkód, és semmilyen adat nem kerül vissza rólunk vagy az olvasóról. Ez független attól, hogyan jut el az olvasóhoz: letöltve vagy webről megnyitva ugyanúgy viselkedik, és offline is teljes értékű. Az egyetlen kimenő kapcsolat a jogszabálycímekre kattintva nyíló ELI-hivatkozás a Nemzeti Jogszabálytárra — az viszont az olvasó szándékos lépése, nem a lap automatikus hívása.</p>
+<p class="meta">Kapcsolat: goroggyorgy77@gmail.com</p>
+</div>
