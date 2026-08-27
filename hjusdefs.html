@@ -223,7 +223,7 @@
   </div>
   <div class="hgroup">
     <h1>HJusDefs</h1>
-    <div class="sub">Jogszabályi definíciók · Magyar Közlöny 2013.05.01 – 2026 · 14 417 definíció · 9 399 egyedi fogalom · <span class="build" title="Ennek a lapnak a build-azonosítója. Ha a közzétett oldalon régebbi értéket látsz, mint a helyi buildben, akkor még a régi verziót szolgálja ki a szerver (vagy a böngésző cache-eli).">build 2026-08-17 17:14 · bbf4585</span></div>
+    <div class="sub">Jogszabályi definíciók · Magyar Közlöny 2013.05.01 – 2026 · 14 417 definíció · 9 399 egyedi fogalom · <span class="build" title="Ennek a lapnak a build-azonosítója. Ha a közzétett oldalon régebbi értéket látsz, mint a helyi buildben, akkor még a régi verziót szolgálja ki a szerver (vagy a böngésző cache-eli).">build 2026-08-27 17:38 · 9586a45</span></div>
   </div>
   <div class="qwrap">
     <input id="q" placeholder="Keress bármilyen jogi fogalomra… (pl. hulladék, fogyasztó, tógazdaság)" autofocus>
@@ -2034,10 +2034,27 @@ const LANDING = 'közeli hozzátartozó';
   // Ha van korábbi ülésből mentett előzmény, ott folytatjuk (a legutóbb nézett
   // fogalommal), nem a beégetett landing-fogalommal. A ⁂-tel kezdődő bejegyzés
   // jogszabály-térkép volt, azt nem tudjuk fogalomként visszatölteni -- átlépjük.
+  //
+  // MÉLYLINK (?fogalom=... vagy #fogalom=...): mindkettőnél ERŐSEBB. Enélkül egy
+  // cikk vagy megosztott link csak az ELSŐ látogatónál (üres localStorage) érne
+  // célba -- a visszatérő ott indulna, ahol legutóbb abbahagyta, tehát pont a
+  // rendszeres olvasó kapná a rosszat. A hash-t is elfogadjuk, mert megosztott
+  // linkeknél gyakori, hogy a query elveszik.
+  // CSAK OLVASSUK: navigációkor nem írjuk vissza az URL-be, mert azzal a saját
+  // vissza gomb (graphHistory) és a böngésző előzménye egymásnak feszülne.
   let startTerm = LANDING;
-  for(let i=graphHistory.length-1; i>=0; i--){
-    const t=graphHistory[i] && graphHistory[i].term;
-    if(t && !t.startsWith('⁂') && gIdx.has(t)){ startTerm=t; break; }
+  let linkTerm = '';
+  try{
+    const m = /(?:^|[?&#])fogalom=([^&#]*)/.exec(location.search + location.hash);
+    if(m) linkTerm = decodeURIComponent(m[1].replace(/\+/g, ' ')).trim().toLowerCase();
+  }catch(_){}
+  if(linkTerm && gIdx.has(linkTerm)){
+    startTerm = linkTerm;
+  }else{
+    for(let i=graphHistory.length-1; i>=0; i--){
+      const t=graphHistory[i] && graphHistory[i].term;
+      if(t && !t.startsWith('⁂') && gIdx.has(t)){ startTerm=t; break; }
+    }
   }
   q.value = startTerm;
   updClear();
