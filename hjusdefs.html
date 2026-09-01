@@ -18,11 +18,15 @@
  header{padding:8px 16px;border-bottom:1px solid var(--line);position:relative;
     flex:0 0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
  .hgroup{display:flex;flex-direction:column;flex:0 0 auto}
- .topbtns{position:absolute;top:9px;right:16px;display:flex;gap:8px}
+ .topbtns{display:flex;gap:8px;align-items:center;order:99;margin-left:auto}
  .topbtns button{font:inherit;font-size:12.5px;
     padding:5px 12px;border:1px solid var(--line);border-radius:14px;
     background:Canvas;color:CanvasText;cursor:pointer;white-space:nowrap}
  .topbtns button:hover{background:#8881}
+ .hjusup{font-size:12.5px;font-weight:600;padding:5px 12px;
+    border:1px solid var(--accent);border-radius:14px;color:var(--accent);
+    text-decoration:none;white-space:nowrap}
+ .hjusup:hover{background:var(--accent);color:#fff}
  #infoBg{position:fixed;inset:0;background:#0007;display:none;z-index:50}
  #infoBg.on{display:block}
  .panel{position:fixed;top:0;right:0;bottom:0;width:min(620px,100%);z-index:51;
@@ -125,6 +129,9 @@
  .drift{background:#d6910022;color:#a06800;border:1px solid #a0680055;cursor:help}
  @media (prefers-color-scheme:dark){
    .flag{color:#ff9b8a} .amend{color:#8ab8f0} .drift{color:#e0a94a}
+   /* a --accent (#2b6cb0) sotet hatteren ~3.6:1 -- keves a 12.5px-es pirulahoz */
+   .hjusup{border-color:#8ab8f0;color:#8ab8f0}
+   .hjusup:hover{background:#8ab8f0;color:#101216}
  }
 
  /* ---- gráf ---- */
@@ -215,17 +222,15 @@
     haló párja) -- akkor is látszik, ha a gyerek-node már a vásznon volt */
  .edge.hier.fresh path:not(.edge-hit){stroke:#d97706;stroke-opacity:.9;stroke-width:2.2}
  .edge-label{pointer-events:none;font-size:9px}
- .sub .uplink{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
- .sub .uplink:hover{color:#1d4ed8}
 </style>
 
 <header>
   <div class="topbtns">
-    <a class="doclink" href="Miez.html" target="_blank" rel="noopener" title="Mi ez, honnan van az adat, mit nem tartalmaz">Mi ez?</a><a class="doclink" href="Hogyan_keszult.html" target="_blank" rel="noopener" title="Módszertani leírás: forrás, kinyerés, ellenőrzés, licencek">Hogyan készült?</a><a class="doclink" href="Ellentmondasok.html" target="_blank" rel="noopener" title="Esettanulmány: amikor a jogalkotó ugyanarra a szóra eltérő definíciókat ad">Ellentmondások</a>
+    <a class="hjusup" href="https://goroggy.github.io/hjus/" target="_blank" rel="noopener" title="A három eszköz közös belépője: HJusDefs, HJusSent, HJusRes — mi ez és mire jó">A másik két eszköz →</a><a class="doclink" href="Miez.html" target="_blank" rel="noopener" title="Mi ez, honnan van az adat, mit nem tartalmaz">Mi ez?</a><a class="doclink" href="Hogyan_keszult.html" target="_blank" rel="noopener" title="Módszertani leírás: forrás, kinyerés, ellenőrzés, licencek">Hogyan készült?</a><a class="doclink" href="Ellentmondasok.html" target="_blank" rel="noopener" title="Esettanulmány: amikor a jogalkotó ugyanarra a szóra eltérő definíciókat ad">Ellentmondások</a>
   </div>
   <div class="hgroup">
     <h1>HJusDefs</h1>
-    <div class="sub">Jogszabályi definíciók · Magyar Közlöny 2013.05.01 – 2026 · 14 417 definíció · 9 399 egyedi fogalom · <span class="build" title="Ennek a lapnak a build-azonosítója. Ha a közzétett oldalon régebbi értéket látsz, mint a helyi buildben, akkor még a régi verziót szolgálja ki a szerver (vagy a böngésző cache-eli).">build 2026-08-30 15:12 · 017d9af</span> &middot; <a class="uplink" href="https://goroggy.github.io/hjus/" target="_blank" rel="noopener" title="A három eszköz közös belépője: HJusDefs, HJusSent, HJusRes — mi ez és mire jó">A másik két eszköz</a></div>
+    <div class="sub">Jogszabályi definíciók · Magyar Közlöny 2013.05.01 – 2026 · 14 417 definíció · 9 399 egyedi fogalom · <span class="build" title="Ennek a lapnak a build-azonosítója. Ha a közzétett oldalon régebbi értéket látsz, mint a helyi buildben, akkor még a régi verziót szolgálja ki a szerver (vagy a böngésző cache-eli).">build 2026-09-01 11:39 · e1c81e9</span></div>
   </div>
   <div class="qwrap">
     <input id="q" placeholder="Keress bármilyen jogi fogalomra… (pl. hulladék, fogyasztó, tógazdaság)" autofocus>
