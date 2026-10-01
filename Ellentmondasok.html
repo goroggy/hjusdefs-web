@@ -2,40 +2,103 @@
 <meta charset="utf-8">
 <title>Élettárs: hozzátartozó vagy sem? — HJusDefs</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- organo-stilus -->
 <style>
- :root{ color-scheme:light dark; --line:#8883; --muted:#8888; --accent:#2b6cb0; }
- *{box-sizing:border-box}
- body{font:16px/1.65 system-ui,Segoe UI,sans-serif;margin:0;background:Canvas;color:CanvasText}
- .wrap{max-width:820px;margin:0 auto;padding:32px 22px 80px}
- nav{font-size:13.5px;margin-bottom:26px;padding-bottom:12px;border-bottom:1px solid var(--line)}
- nav a{color:var(--accent);text-decoration:none;margin-right:16px}
- nav a:hover{text-decoration:underline}
- h1{font-size:26px;line-height:1.25;margin:0 0 6px}
- h2{font-size:19px;margin:34px 0 10px;padding-top:10px;border-top:1px solid var(--line)}
- h3{font-size:16px;margin:22px 0 8px}
- p,li{margin:9px 0}
- code{font:13px ui-monospace,Consolas,monospace;background:color-mix(in srgb,CanvasText 8%,transparent);
-      padding:1px 5px;border-radius:4px}
- table{border-collapse:collapse;margin:14px 0;font-size:14.5px;width:100%}
- th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
- th{background:color-mix(in srgb,CanvasText 6%,transparent)}
- hr{border:0;border-top:1px solid var(--line);margin:26px 0}
- em.sub{display:block;color:var(--muted);font-size:14px;margin-bottom:4px}
- blockquote{margin:14px 0;padding:8px 14px;border-left:3px solid var(--line);color:var(--muted)}
- a{color:var(--accent)}
- .meta{font-size:14px;color:var(--muted);margin:10px 0 0}
- .abstract{border:1px solid var(--line);border-radius:6px;padding:14px 18px;margin:22px 0;
-           background:color-mix(in srgb,CanvasText 3%,transparent);font-size:15px}
- .abstract h3{margin-top:0}
- .caption{font-size:13.5px;color:var(--muted);margin:-6px 0 18px}
- .van{color:#2f855a;font-weight:600}
- .nincs{color:#c05621;font-weight:600}
- .src{font-size:13px;margin:2px 0 0}
- @media(max-width:640px){ .wrap{padding:20px 14px 60px} table{font-size:13px} }
+:root{
+  --ink:#102c27; --muted:#62716d; --green:#007b59; --green-dark:#005d46;
+  --green-soft:#e2f3ed; --aqua:#dceff2; --orange:#c86c27; --orange-soft:#f8e6d6;
+  --line:#cfddd8; --panel:rgba(255,255,255,.94);
+  --shadow:0 18px 45px rgba(21,52,45,.11); --accent:#007b59;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; color:var(--ink); font-family:Georgia,"Times New Roman",serif;
+  font-size:18px; line-height:1.62; min-height:100vh;
+  background:
+    radial-gradient(circle at 84% 4%, rgba(140,197,184,.22), transparent 34rem),
+    linear-gradient(135deg,#f8faf7,#eef3ef);
+}
+.wrap{max-width:52rem;margin:0 auto;padding:34px 24px 90px}
+nav{
+  font-family:system-ui,sans-serif;font-size:.8rem;margin:0 0 26px;
+  display:flex;gap:16px;flex-wrap:wrap
+}
+nav a{color:var(--green-dark);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:1px}
+nav a:hover{border-color:var(--green)}
+h1{
+  font-size:clamp(2rem,4.4vw,2.7rem);line-height:1.08;font-weight:600;
+  letter-spacing:-.015em;margin:.1em 0 .25em;text-wrap:balance
+}
+em.sub{
+  display:block;font-style:normal;color:var(--muted);font-size:1.02rem;
+  line-height:1.45;margin:0 0 6px;max-width:44rem
+}
+.meta{
+  font-family:system-ui,sans-serif;font-size:.72rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--green);font-weight:850;margin:14px 0 0
+}
+h2{
+  font-size:1.5rem;font-weight:600;letter-spacing:-.01em;
+  margin:2.4em 0 .5em;padding-top:.5em;border-top:1px solid var(--line)
+}
+h3{font-size:1.14rem;font-weight:600;margin:1.9em 0 .4em;color:var(--green-dark)}
+p,li{max-width:44rem}
+p{margin:0 0 1.05em}
+a{color:var(--green-dark);text-decoration:none;border-bottom:1px solid var(--line)}
+a:hover{border-color:var(--green)}
+code{
+  font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.85em;
+  background:var(--green-soft);color:var(--green-dark);
+  padding:.1em .38em;border-radius:5px
+}
+.abstract{
+  background:var(--panel);border:1px solid var(--line);border-radius:15px;
+  box-shadow:var(--shadow);padding:22px 26px;margin:26px 0 32px;font-size:.97rem
+}
+.abstract h3{margin-top:0;color:var(--green);font-family:system-ui,sans-serif;
+  font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;font-weight:850}
+.abstract p:last-child{margin-bottom:0}
+table{
+  border-collapse:collapse;width:100%;margin:18px 0;font-size:.92rem;
+  font-family:system-ui,sans-serif;background:var(--panel);
+  border:1px solid var(--line);border-radius:12px;overflow:hidden
+}
+th,td{padding:9px 13px;text-align:left;border-bottom:1px solid var(--line);
+  vertical-align:top;font-variant-numeric:tabular-nums}
+th{background:var(--green-soft);color:var(--green-dark);font-weight:700;
+  font-size:.76rem;letter-spacing:.04em;text-transform:uppercase}
+tr:last-child td{border-bottom:0}
+.caption{font-family:system-ui,sans-serif;font-size:.78rem;color:var(--muted);
+  margin:-8px 0 26px}
+blockquote{
+  margin:18px 0;padding:10px 18px;border-left:3px solid var(--green-soft);
+  color:#41524e;font-style:italic
+}
+hr{border:0;border-top:1px solid var(--line);margin:34px 0}
+.toc{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  box-shadow:var(--shadow);padding:16px 22px;margin:26px 0;font-size:.92rem
+}
+.toc ol{margin:.3em 0;padding-left:1.3em}
+.toc a{text-decoration:none;border:0}
+.toc a:hover{border-bottom:1px solid var(--green)}
+sup a{text-decoration:none;border:0;font-weight:700;color:var(--green);font-size:.8em}
+ol.refs{font-size:.86rem;color:#3d4d49}
+ol.refs li{margin:0 0 .7em;padding:3px 7px;border-radius:7px}
+ol.refs li:target{background:var(--green-soft)}
+.src{font-family:system-ui,sans-serif;font-size:.78rem;color:var(--muted);margin:2px 0 0}
+.van{color:var(--green);font-weight:700}
+.nincs{color:var(--orange);font-weight:700}
+figure.flow{margin:26px 0 8px;padding:22px 20px 14px;background:var(--panel);
+  border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow)}
+figure.flow svg{display:block;width:100%;height:auto}
+.ribbon{opacity:0;animation:ribbon-in .9s ease forwards}
+@keyframes ribbon-in{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.ribbon{animation:none;opacity:1}}
 </style>
 <div class="wrap">
 <nav><a href="hjusdefs.html">&larr; Vissza a gyűjteményhez</a>
-<a href="Miez.html">Mi ez?</a><a href="Hogyan_keszult.html">Hogyan készült?</a><a href="Ellentmondasok.html">Ellentmondások</a></nav>
+<a href="Miez.html">Mi ez?</a><a href="Hogyan_keszult.html">Hogyan készült?</a><a href="Ellentmondasok.html">Ellentmondások</a><a href="fogalomfa.html">Fogalomfa</a></nav>
 
 <h1>Élettárs: hozzátartozó vagy sem?</h1>
 <em class="sub">Amikor a jogalkotó ugyanarra a köznyelvi szóra egymástól eltérő válaszokat ad — esettanulmány a HJusDefs fogalmi hálóján</em>
@@ -43,16 +106,16 @@
 
 <div class="abstract">
 <h3>Röviden</h3>
-<p>A <a href="Hogyan_keszult.html">„Hogyan készült?"</a> tanulmány módszertana a <b>hiányzó</b> definíciókra (hídfogalmak) épít. Ez az oldal a tükörjelenséget mutatja be: amikor egy fogalmat <i>több, egymástól független</i> jogszabály definiál, a felsorolt tagok nem mindig egyeznek. A magyar jog 22 önálló helyen definiálja a „közeli hozzátartozó" kifejezést, és ezek közül 8 tartalmazza az <b>élettársat</b>, 14 nem. Egy hétköznapi szó jelentése törvényről törvényre változik.</p>
+<p>A <a href="Hogyan_keszult.html">„Hogyan készült?"</a> tanulmány módszertana a <b>hiányzó</b> definíciókra (hídfogalmak) épít. Ez az oldal a tükörjelenséget mutatja be: amikor egy fogalmat <i>több, egymástól független</i> jogszabály definiál, a felsorolt tagok nem mindig egyeznek. A magyar jog 28 önálló helyen definiálja a „közeli hozzátartozó" kifejezést, és ezek közül 11 tartalmazza az <b>élettársat</b>, 17 nem. Egy hétköznapi szó jelentése törvényről törvényre változik.</p>
 </div>
 
 <h2>A jelenség</h2>
-<p>A „közeli hozzátartozó" a magyar jogi köznyelv egyik legtöbbet használt kifejezése: öröklési, eljárásjogi, összeférhetetlenségi és intézményi (kórházi, büntetés-végrehajtási) szabályok sora épül rá. A korpuszban <b>22</b> jogszabály határozza meg önállóan — nem egyszerű Ptk.-hivatkozással, hanem saját szöveggel vagy tudatos kiegészítéssel. Ezek közül:</p>
+<p>A „közeli hozzátartozó" a magyar jogi köznyelv egyik legtöbbet használt kifejezése: öröklési, eljárásjogi, összeférhetetlenségi és intézményi (kórházi, büntetés-végrehajtási) szabályok sora épül rá. A korpuszban <b>28</b> jogszabály ad rá meghatározást — részben a Ptk.-ra hivatkozva, részben saját szöveggel vagy tudatos kiegészítéssel. Ezek közül:</p>
 <table><thead><tr><th></th><th>db</th></tr></thead><tbody>
-<tr><td><span class="van">élettárssal együtt</span> definiálja</td><td>8</td></tr>
-<tr><td><span class="nincs">élettárs nélkül</span> definiálja</td><td>14</td></tr>
+<tr><td><span class="van">élettárssal együtt</span> definiálja</td><td>11</td></tr>
+<tr><td><span class="nincs">élettárs nélkül</span> definiálja</td><td>17</td></tr>
 </tbody></table>
-<p>A 14 „nélküle" közül 8 egyszerűen a Polgári Törvénykönyvre hivatkozik — és ez önmagában <i>konzisztens</i>: a Ptk. saját, 2013. évi V. törvénybeli meghatározása is kihagyja az élettársat (lásd lent). A másik 6, illetve a 8 „vele" eset viszont saját, önálló felsorolást ad — ott a szétválás nem hivatkozási stílus kérdése, hanem tartalmi döntés.</p>
+<p>A 17 „nélküle" közül 11 egyszerűen a Polgári Törvénykönyvre hivatkozik — és ez önmagában <i>konzisztens</i>: a Ptk. saját, 2013. évi V. törvénybeli meghatározása is kihagyja az élettársat (lásd lent). A másik 6, illetve a 11 „vele" eset viszont saját, önálló felsorolást ad — ott a szétválás nem hivatkozási stílus kérdése, hanem tartalmi döntés.</p>
 
 <h2>Négy idézet</h2>
 <p>Mind a négy jogszabály <b>ma is hatályos</b>.</p>
@@ -73,13 +136,13 @@
 
 <h2>A módszer</h2>
 <p>Ez nem egyetlen kézzel talált eset. A fogalmi hálón szisztematikus keresés fut: minden <code>own&gt;1</code> fogalomra (amelyet legalább 3, egymástól független — nem hivatkozó — jogszabály definiál felsorolással) összevetjük a tagok halmazát. Csak azokat a fogalmakat vesszük figyelembe, amelyeknél a variánsok listája <i>egyébként</i> nagyon hasonló (Jaccard-hasonlóság ≥ 0,30) — így nem a teljesen különböző célú definíciókat (pl. eltérő számviteli fogalmak) hasonlítjuk össze, hanem azokat, ahol tényleg „ugyanaz a lista, egy tag máshogy" a helyzet.</p>
-<p>A teljes korpuszon <b>762</b> nyers (fogalom, tag) inkonzisztens jelölt született, ebből a hasonlósági szűrés után <b>172</b> maradt. Ezek nagy része szakigazgatási/elszámolási fogalom (pl. uniós támogatási rendeletek elszámolási tételei), ahol a szétválás jellemzően szakmai indokú, és a szakértőtől amúgy is elvárt az adott rendelet ellenőrzése. Az élettárs/közeli hozzátartozó esetet <b>tudatosan</b> emeltük ki a 172 közül: ez az, amelyik köznyelvi szót érint, és amelynek valódi, hétköznapi jogkövetkezménye van — nem a legmagasabb statisztikai pontszámú, hanem a leginkább szemléltető.</p>
+<p>A teljes korpuszon <b>2 710</b> nyers (fogalom, tag) inkonzisztens jelölt születik, ebből a hasonlósági szűrés után <b>496</b> marad; a mérést a <code>scripts/qc_inconsistency.py</code> végzi, és a kimenete tételesen megnézhető. <b>Itt korábban 762, illetve 172 állt</b> — egy olyan futásból, amelynek a szkriptje már nincs meg a repóban. 2026-09-30-án a módszer újraimplementálásakor kiderült, hogy a fenti leírásból nem állítható elő ugyanaz a szám: a „tag" háromféle védhető olvasata két nagyságrendet fog be (38 580, 2 710, illetve 26 659 nyers jelölt). Azért a szigorú olvasat áll most, mert egyedül az tartalmazza magát a lent bemutatott esetet — tag az, ami a felsorolásban <i>önmagában</i> definiált fogalom, nem ami előfordul benne. Ezek nagy része szakigazgatási/elszámolási fogalom (pl. uniós támogatási rendeletek elszámolási tételei), ahol a szétválás jellemzően szakmai indokú, és a szakértőtől amúgy is elvárt az adott rendelet ellenőrzése. Az élettárs/közeli hozzátartozó esetet <b>tudatosan</b> emeltük ki a 496 közül: ez az, amelyik köznyelvi szót érint, és amelynek valódi, hétköznapi jogkövetkezménye van — nem a legmagasabb statisztikai pontszámú, hanem a leginkább szemléltető.</p>
 
 <h2>Korlátok</h2>
 <ul>
 <li><b>A tagfelismerés heurisztikus.</b> A felsorolás-tagokat vessző- és kötőszó-mentén választjuk szét; összetett, alárendelt mondatszerkezetű definícióknál ez tévedhet — ezért kell a hasonlósági szűrő és a kézi ellenőrzés.</li>
 <li><b>Nem minden „NINCS" azonos jelentésű.</b> A Ptk.-ra hivatkozó, egyszerű „NINCS" esetek nem tekinthetők önálló, egymásnak ellentmondó döntésnek — azok a Ptk. definícióját öröklik. Az ellentmondás ott áll fenn, ahol két jogszabály <i>saját, önálló</i> felsorolást ad, és azok mégis eltérnek.</li>
-<li><b>A kiválasztás nem vak.</b> A 172 jelöltből az itt bemutatott esetet kézzel választottuk, köznyelvi súly alapján — ez a módszertan explicit része, nem utólagos szépítés.</li>
+<li><b>A kiválasztás nem vak.</b> A 496 jelöltből az itt bemutatott esetet kézzel választottuk, köznyelvi súly alapján — ez a módszertan explicit része, nem utólagos szépítés.</li>
 <li><b>Kihirdetéskori állapot.</b> Mint a gyűjtemény egészében, itt is a kihirdetett (nem a módosításokkal frissített) szöveg szerepel; a hatályosságot az ELI-hivatkozás felől érdemes ellenőrizni.</li>
 </ul>
 
