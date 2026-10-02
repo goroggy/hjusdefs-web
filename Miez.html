@@ -74,6 +74,25 @@ blockquote{
   margin:18px 0;padding:10px 18px;border-left:3px solid var(--green-soft);
   color:#41524e;font-style:italic
 }
+/* KIHIRDETESKORI ALLAPOT. Ugyanaz a borostyan sav, mint a hjusdefs.html
+   #statenote-ja -- egy fenntartas, egy forma, mind a harom lapon. Eddig a
+   "kihirdeteskori allapot" mondat a Hogyan_keszult.html es az
+   Ellentmondasok.html KORLATOK-listajanak kozepen allt, a Miez.html-bol
+   pedig teljesen hianyzott; a legfontosabb lehatarolast nem lehet
+   felsorolas-elembe temetni. */
+p.statenote{
+  background:var(--orange-soft);border-left:4px solid var(--orange);
+  padding:12px 18px;border-radius:0 8px 8px 0;margin:18px 0 22px;
+  font-size:.95rem;max-width:none
+}
+/* A kihirdetes eve az idezet mellett -- ugyanaz a felirat, mint a
+   hjusdefs.html .pubyear pirulajan ("ÉÉÉÉ-ben kihirdetett szöveg"). */
+.pubyear{
+  display:inline-block;font-family:system-ui,sans-serif;font-size:.72rem;
+  background:var(--green-soft);color:var(--green-dark);
+  border:1px solid var(--line);border-radius:4px;padding:1px 7px;margin-left:6px;
+  white-space:nowrap
+}
 hr{border:0;border-top:1px solid var(--line);margin:34px 0}
 .toc{
   background:var(--panel);border:1px solid var(--line);border-radius:14px;
@@ -101,11 +120,12 @@ figure.flow svg{display:block;width:100%;height:auto}
 <a href="Miez.html">Mi ez?</a><a href="Hogyan_keszult.html">Hogyan készült?</a><a href="Ellentmondasok.html">Ellentmondások</a><a href="fogalomfa.html">Fogalomfa</a></nav>
 <h1>Mi ez?</h1>
 <em class="sub">A magyar jogszabályokban szereplő fogalommeghatározások kereshető gyűjteménye.</em>
-<p>Az „Értelmező rendelkezések" szakaszokból és az „E törvény alkalmazásában…" fordulatokból gépileg kinyert fogalom–definíció párok, <b>25 919</b> darab, a Magyar Közlöny tizenhét évfolyamából.</p>
+<p>Az „Értelmező rendelkezések" szakaszokból és az „E törvény alkalmazásában…" fordulatokból gépileg kinyert fogalom–definíció párok, <b>29 466</b> darab: a Magyar Közlöny tizenhét évfolyamából (2010–2026), kiegészítve 198 olyan korábbi jogszabály közlönyállapotával (1990–2009), amelyre a korpusz hivatkozik, de amelyet nem tartalmazott — ezek szövege a Nemzeti Jogszabálytárból való.</p>
 <p>Bal oldalon kereshetsz, jobb oldalon pedig a kiválasztott fogalom <b>fogalmi környezete</b> rajzolódik ki: mire épül a meghatározása, és mely fogalmak épülnek rá.</p>
+<p class="statenote"><b>Kihirdetéskori (közlöny-)állapot.</b> Minden meghatározás abban a formában szerepel, ahogy a Magyar Közlönyben kihirdették — <b>ez nem a hatályos szöveg</b>. A gyűjtemény a későbbi módosításokat nem követi, ezért a gyűjteményben minden meghatározás mellett ott áll a <b>kihirdetés éve</b> is.</p>
 <h2>Honnan van az adat?</h2>
 <p>A Magyar Közlöny hivatalosan közzétett szövegeiből, gépi feldolgozással.</p>
-<p>A jogszabálycímek a Nemzeti Jogszabálytárra mutatnak (ELI-hivatkozás) — oda kattintva a hatályos, hiteles szöveg olvasható.</p>
+<p>A jogszabály címe a Nemzeti Jogszabálytár <b>közlönyállapotára</b> mutat (ELI-hivatkozás <code>/kozlony</code> végződéssel) — vagyis pontosan arra a szövegre, amelyből a meghatározás származik. A mai, <b>hatályos</b> szöveghez a mellette álló „hatályos szöveg ↗" hivatkozás vezet, szintén a Nemzeti Jogszabálytárba.</p>
 <h2>Definíciók felismerése</h2>
 <p>A meghatározások két helyen bújnak meg: az „Értelmező rendelkezések" alcím alatti felsorolásokban, és a szövegbe ágyazott „E törvény alkalmazásában…" fordulatok után. Ez a kettő nem ugyanaz: az utóbbinál a hatókör változó — vonatkozhat az egész törvényre, de akár egyetlen fejezetre vagy szakaszra is. A feldolgozás mindkettőt kezeli, és rögzíti, mire terjed ki.</p>
 <h2>Definíció vagy hivatkozás?</h2>

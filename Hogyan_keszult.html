@@ -74,6 +74,25 @@ blockquote{
   margin:18px 0;padding:10px 18px;border-left:3px solid var(--green-soft);
   color:#41524e;font-style:italic
 }
+/* KIHIRDETESKORI ALLAPOT. Ugyanaz a borostyan sav, mint a hjusdefs.html
+   #statenote-ja -- egy fenntartas, egy forma, mind a harom lapon. Eddig a
+   "kihirdeteskori allapot" mondat a Hogyan_keszult.html es az
+   Ellentmondasok.html KORLATOK-listajanak kozepen allt, a Miez.html-bol
+   pedig teljesen hianyzott; a legfontosabb lehatarolast nem lehet
+   felsorolas-elembe temetni. */
+p.statenote{
+  background:var(--orange-soft);border-left:4px solid var(--orange);
+  padding:12px 18px;border-radius:0 8px 8px 0;margin:18px 0 22px;
+  font-size:.95rem;max-width:none
+}
+/* A kihirdetes eve az idezet mellett -- ugyanaz a felirat, mint a
+   hjusdefs.html .pubyear pirulajan ("ÉÉÉÉ-ben kihirdetett szöveg"). */
+.pubyear{
+  display:inline-block;font-family:system-ui,sans-serif;font-size:.72rem;
+  background:var(--green-soft);color:var(--green-dark);
+  border:1px solid var(--line);border-radius:4px;padding:1px 7px;margin-left:6px;
+  white-space:nowrap
+}
 hr{border:0;border-top:1px solid var(--line);margin:34px 0}
 .toc{
   background:var(--panel);border:1px solid var(--line);border-radius:14px;
@@ -108,8 +127,8 @@ figure.flow svg{display:block;width:100%;height:auto}
 <h3>Kivonat</h3>
 <p><b>Háttér.</b> A magyar jogszabályok „Értelmező rendelkezések" szakaszai több ezer legáldefiníciót (fogalommeghatározást) tartalmaznak, de ezek jogszabályonként elszigetelten élnek: nincs olyan összeállítás, amelyből kiderülne, mely fogalmakat hány jogszabály határoz meg, milyen eltéréssel, és melyik definíció melyik másikra épül.</p>
 <p><b>Célkitűzés.</b> A munka három kérdést vizsgál: a definíciós <i>redundanciát</i>, a definíciók közötti <i>fogalmi függést</i>, valamint a <i>hídfogalmakat</i> — azokat a kifejezéseket, amelyekre sok meghatározás hivatkozik, de a <i>vizsgált korpuszban</i> egyetlen jogszabály sem definiálja őket (a vizsgált korpusz nem az összes hatályos jogszabály).</p>
-<p><b>Módszer.</b> 20 167 Magyar Közlöny-dokumentum (2010–2026, törvény és rendelet) determinisztikus mintaillesztéses feldolgozása. A nyers lexikai éleket nyelvmodell-alapú zajszűrés tisztítja (GPT-4.1-mini, majd a korpusz bővülésével keletkezett új élpárokon a helyben futtatott Qwen3-14B, mindkettő <code>T=0</code>, zárt válaszkészlet — a két bíró küszöbe eltér, l. lent); a fogalmi gerinc viszont nem modellcímkékből, hanem a definíciók nyelvtani szerkezetéből és a fogalomnevek morfológiájából épül (genus-pozíció, puszta felsorolás, fejszó-öröklés), minden élhez a bizonyító mondatrészlettel vagy névpárral — a felsorolásból származó éleket helyben futtatott Racka-4B behelyettesítéses próbája („a ⟨tag⟩ egy ⟨definiendum⟩?") igazolja. A hídfogalom-jelöltek négylépcsős szűrésen mennek át (korpuszgyakoriság, szótári ellenőrzés, egységes modell-osztályozás, kézi felülírás).</p>
-<p><b>Eredmények.</b> 25 919 kinyert definíció 2 076 jogszabályból, 13 794 csomópont. A definíciók 94,9%-ánál a kanonikus azonosító pontosan arra a szövegegységre mutat, ahol a definíció áll (<code>exact</code>); 4,9%-nál a hivatkozott egység több definíciót is tartalmaz (<code>shared</code>), 0,3%-nál eltérés van (<code>mismatch</code>). A 59 277 nyers lexikai élből a zajszűrés után 22 023 marad. A nézetben megjelenő is_a-gerinc 7 082 éle (950 genus-pozíciós, 5 940 fejszó-örökölt — ebből 4 558-at a helyi Racka-4B behelyettesítéses próbája is megerősít, 194 igazolt felsorolás-tag) mindegyike a forrásmondat idézetével vagy a bizonyító fogalomnévvel ellenőrizhető. 261 hídfogalom, ezek 62,8%-a köznyelvi regiszterű; 63 fogalomnál viszont két független nyelvi forrás egybehangzóan a szakmai jelleget erősíti meg. Egy független feldolgozási útvonallal szemben — a 2026-08-13-i korpuszon mérve — a definíciók 92,6%-a szó szerint egyezett.</p>
+<p><b>Módszer.</b> 20 167 Magyar Közlöny-dokumentum (2010–2026, törvény és rendelet) determinisztikus mintaillesztéses feldolgozása, kiegészítve 198 korábbi jogszabály (1990–2009) közlönyállapotával: ezeket a korpusz hivatkozza, de nem tartalmazta, és a szövegük a Nemzeti Jogszabálytárból való, ugyanabban a kihirdetéskori alakban. A nyers lexikai éleket nyelvmodell-alapú zajszűrés tisztítja (GPT-4.1-mini, majd a korpusz bővülésével keletkezett új élpárokon a helyben futtatott Qwen3-14B, mindkettő <code>T=0</code>, zárt válaszkészlet — a két bíró küszöbe eltér, l. lent); a fogalmi gerinc viszont nem modellcímkékből, hanem a definíciók nyelvtani szerkezetéből és a fogalomnevek morfológiájából épül (genus-pozíció, puszta felsorolás, fejszó-öröklés), minden élhez a bizonyító mondatrészlettel vagy névpárral — a felsorolásból származó éleket helyben futtatott Racka-4B behelyettesítéses próbája („a ⟨tag⟩ egy ⟨definiendum⟩?") igazolja. A hídfogalom-jelöltek négylépcsős szűrésen mennek át (korpuszgyakoriság, szótári ellenőrzés, egységes modell-osztályozás, kézi felülírás).</p>
+<p><b>Eredmények.</b> 29 466 kinyert definíció 2 265 jogszabályból, 15 801 csomópont. A definíciók 95,9%-ánál a kanonikus azonosító pontosan arra a szövegegységre mutat, ahol a definíció áll (<code>exact</code>); 3,8%-nál a hivatkozott egység több definíciót is tartalmaz (<code>shared</code>), 0,2%-nál eltérés van (<code>mismatch</code>). A 75 272 nyers lexikai élből a zajszűrés után 22 545 marad. A nézetben megjelenő is_a-gerinc 9 025 éle (1 220 genus-pozíciós, 7 446 fejszó-örökölt — ebből 5 687-et a helyi Racka-4B behelyettesítéses próbája is megerősít, 359 igazolt felsorolás-tag) mindegyike a forrásmondat idézetével vagy a bizonyító fogalomnévvel ellenőrizhető. 261 hídfogalom, ezek 62,8%-a köznyelvi regiszterű; 63 fogalomnál viszont két független nyelvi forrás egybehangzóan a szakmai jelleget erősíti meg. Egy független feldolgozási útvonallal szemben — a 2026-08-13-i korpuszon mérve — a definíciók 92,6%-a szó szerint egyezett.</p>
 <p><b>Következtetés.</b> A determinisztikus kinyerés, a zajszűrt lexikai háló és a szerkezeti bizonyítékon alapuló fogalmi gerinc kombinációja ellenőrizhető és reprodukálható fogalomtérképet ad: a nézet minden állítása vagy szó szerinti jogszabály-idézet, vagy a forrásmondattal hátolt szerkezeti viszony.</p>
 <p style="margin-bottom:0"><b>Kulcsszavak:</b> legáldefiníció · jogi fogalmi háló · normavilágosság · információkinyerés · jogi informatika · magyar jogi korpusz</p>
 </div>
@@ -169,7 +188,7 @@ figure.flow svg{display:block;width:100%;height:auto}
 
 <h3>3.1 Forrás és lehatárolás</h3>
 <p><b>Elsődleges forrás:</b> a Magyar Közlöny PDF-kiadásai 2013. 05. 01. – 2026 között, kiegészítve három alapkódex korábbi kihirdetésével (3.7. pont).</p>
-<p><b>Kihirdetéskori (közlöny-)állapot.</b> A feldolgozás nem követi a módosításokat: minden definíció abban a formában szerepel, ahogy kihirdették</p>
+<p class="statenote"><b>Kihirdetéskori (közlöny-)állapot.</b> A feldolgozás nem követi a módosításokat: minden definíció abban a formában szerepel, ahogy kihirdették — <b>ez nem a hatályos szöveg</b>. A gyűjteményben ezért minden meghatározás mellett ott áll a <b>kihirdetés éve</b> (a forrásdokumentum közlönyévfolyama), és külön hivatkozás vezet a Nemzeti Jogszabálytárban a mai, hatályos szöveghez.</p>
 
 <h3>3.2 Szövegkinyerés</h3>
 <p>A PDF-ből tagolt szövegfájl lesz, majd a Közlöny-szám jogszabályonként külön fájlokra bomlik. A definíció-kinyerés ezt követően tisztán mintaillesztéssel dolgozik, nyelvi modell nélkül:</p>
@@ -187,7 +206,7 @@ figure.flow svg{display:block;width:100%;height:auto}
 <p>Az élek első közelítésben lexikai egyezésből származnak: <code>A → B</code> él akkor keletkezik, ha <code>B</code> fogalom neve előfordul <code>A</code> definíciójának szövegében, szótári alapalakra visszavezetve (HuSpaCy <code>hu_core_news_lg</code><sup><a href="#r21">[21]</a></sup>), hogy a ragozás ne akadályozza az egyezést. Ez önmagában <b>nem</b> fogalmi kapcsolat, csak szóegyezés, ezért két külön mechanizmus dolgozik rajta: egy <b>zajszűrő</b>, amely a véletlen egyezéseket dobja ki, és egy <b>szerkezeti gerinc</b>, amely az ellenőrizhető is_a-viszonyokat mutatja.</p>
 <p><b>Zajszűrő.</b> Minden jelölt párra a GPT-4.1-mini<sup><a href="#r26">[26]</a></sup> páronként, zárt válaszkészletből osztályozza, hogy a szóegyezés mögött van-e egyáltalán tartalmi kapcsolat (<code>T=0</code>, néhány rögzített példával). A modell tehát nem generál és nem összegez, csak osztályoz — ez teszi a besorolást visszakereshetővé és utólag kézzel javíthatóvá; minden válasz CSV-naplóval együtt keletkezik. A szűrő a <i>kizáró</i> irányban megbízható: a „nincs kapcsolat" besorolások kézi mintán ~93%-ban helyesek. Megjegyzendő viszont, hogy a megtartott élek jelentős része mögött sincs valódi logikai viszony — a zajszűrő tehát a gráf <b>sűrűségét</b> javítja, a kapcsolat <b>jelentését</b> nem dönti el. Utóbbiért felel a gerinc.</p>
 
-<p><b>Két bíró, és ami ebből következik.</b> A fenti ~93% a GPT-4.1-minire vonatkozik, a 2026-08-13-i élhalmazon mérve. A korpusz azóta megnőtt, és a keletkezett új élpárokat — hogy ne ítélet nélkül essenek ki — a helyben futó Qwen3-14B ítélte meg, változatlan rendszerprompttal és ugyanazzal a nyolc példával. A mai gráf 22 023 tipizált éléből <b>14 006 (63,6%) olyan élpárra épül, amelyet csak a helyi Qwen3-14B bírált el</b>; 8 017 (36,4%) már a Qwen előtti, GPT-4.1-mini korszak gyorsítótárában is bent állt.</p>
+<p><b>Két bíró, és ami ebből következik.</b> A fenti ~93% a GPT-4.1-minire vonatkozik, a 2026-08-13-i élhalmazon mérve. A korpusz azóta megnőtt, és a keletkezett új élpárokat — hogy ne ítélet nélkül essenek ki — a helyben futó Qwen3-14B ítélte meg, változatlan rendszerprompttal és ugyanazzal a nyolc példával. A mai gráf 22 545 tipizált éléből <b>14 565 (64,6%) olyan élpárra épül, amelyet csak a helyi Qwen3-14B bírált el</b>; 7 980 (35,4%) már a Qwen előtti, GPT-4.1-mini korszak gyorsítótárában is bent állt.</p>
 
 <p>A két bíró küszöbe nem azonos, és ezt megmértük. 600 olyan élpáron, amelyet <i>mindkettő</i> látott, a GPT 18,0%-ot minősített kapcsolatnak, a Qwen 29,8%-ot; egyezésük 81,2%. Az eltérés nem szimmetrikus: 92 esetben mondott a Qwen igent a GPT nemére, és csak 21 esetben fordítva — vagyis a Qwen <b>1,66-szor engedékenyebb</b>. Az eltérő ítéletek kézi olvasása szerint mindkét bíró téved, ellentétes irányba: a Qwen megtalál valódi kapcsolatokat, amelyeket a GPT eldobott (<i>certifikált szaporítóanyag → certifikált anyanövény</i>), de zajt is beenged (<i>kiszervezés → pénzügyi</i>); a GPT viszont eltalálja azt, amit a Qwen eldob (<i>építési tevékenység → építési-szerelési munka</i>). A számokból <b>nem következik</b>, melyik küszöb a helyes — ehhez emberi ítéletű aranyminta kell, ami még nincs kiértékelve. Addig a helyes olvasat: a fehérlista két, eltérően kalibrált félből áll, és a ~93%-os pontosság csak a GPT felére igazolt.</p>
 <p><b>A fogalmi gerinc.</b> A szigorú is_a-viszonyokat a definíció <b>nyelvtani szerkezetéből</b> nyerjük, két forrásból:</p>
@@ -264,32 +283,32 @@ figure.flow svg{display:block;width:100%;height:auto}
 <h3>4.1 A korpusz</h3>
 <table><thead><tr><th>mutató</th><th>érték</th></tr></thead><tbody>
 <tr><td>hatókörbe eső Közlöny-dokumentum (törvény és rendelet)</td><td>20 167</td></tr>
-<tr><td>definíciót adó jogszabály</td><td>2 076</td></tr>
-<tr><td>kinyert definíció</td><td>25 919</td></tr>
-<tr><td>&nbsp;&nbsp;ebből <code>exact</code> citációjú (a kanonikus azonosító pontosan a definíció helyére mutat)</td><td>24 767 (<b>95,5%</b>)</td></tr>
-<tr><td>&nbsp;&nbsp;ebből <code>shared</code> (a hivatkozott egység több definíciót is tartalmaz)</td><td>1 092 (4,2%)</td></tr>
-<tr><td>&nbsp;&nbsp;ebből <code>mismatch</code> / <code>unknown</code></td><td>60 (0,2%)</td></tr>
-<tr><td>egyedi fogalom (szótövezve)</td><td>13 635</td></tr>
-<tr><td>kereshető fogalom a viewerben</td><td>13 170</td></tr>
+<tr><td>definíciót adó jogszabály</td><td>2 265</td></tr>
+<tr><td>kinyert definíció</td><td>29 466</td></tr>
+<tr><td>&nbsp;&nbsp;ebből <code>exact</code> citációjú (a kanonikus azonosító pontosan a definíció helyére mutat)</td><td>28 270 (<b>95,9%</b>)</td></tr>
+<tr><td>&nbsp;&nbsp;ebből <code>shared</code> (a hivatkozott egység több definíciót is tartalmaz)</td><td>1 128 (3,8%)</td></tr>
+<tr><td>&nbsp;&nbsp;ebből <code>mismatch</code> / <code>unknown</code></td><td>68 (0,2%)</td></tr>
+<tr><td>egyedi fogalom (szótövezve)</td><td>15 650</td></tr>
+<tr><td>kereshető fogalom a viewerben</td><td>15 106</td></tr>
 <tr><td>ELI-hivatkozással ellátva</td><td>100%</td></tr>
 </tbody></table>
 <p class="caption">5. táblázat. A korpusz alapmutatói.</p>
 
 <h3>4.2 A fogalmi háló</h3>
 <table><thead><tr><th>mutató</th><th>érték</th></tr></thead><tbody>
-<tr><td>csomópont (minden definiált fogalom)</td><td>13 794</td></tr>
-<tr><td>nyers lexikai él (szóegyezés, szűrés nélkül)</td><td>59 277</td></tr>
-<tr><td>zajszűrés után megtartott él</td><td>22 023 (<b>37,2%</b>)</td></tr>
-<tr><td>&nbsp;&nbsp;ebből a GPT-4.1-mini ítéletéből (2026-08)</td><td>8 017 (36,4%)</td></tr>
-<tr><td>&nbsp;&nbsp;ebből a helyi Qwen3-14B ítéletéből (2026-09)</td><td>14 006 (63,6%)</td></tr>
+<tr><td>csomópont (minden definiált fogalom)</td><td>15 801</td></tr>
+<tr><td>nyers lexikai él (szóegyezés, szűrés nélkül)</td><td>75 272</td></tr>
+<tr><td>zajszűrés után megtartott él</td><td>22 545 (<b>30,0%</b>)</td></tr>
+<tr><td>&nbsp;&nbsp;ebből a GPT-4.1-mini ítéletéből (2026-08)</td><td>7 980 (35,4%)</td></tr>
+<tr><td>&nbsp;&nbsp;ebből a helyi Qwen3-14B ítéletéből (2026-09)</td><td>14 565 (64,6%)</td></tr>
 <tr><td>ebből HIVATKOZIK / BŐVÍT (determinisztikus szabályból)</td><td>1 564</td></tr>
-<tr><td><b>is_a-gerinc él</b> (szerkezeti bizonyítékkal)</td><td><b>7 082</b></td></tr>
-<tr><td>&nbsp;&nbsp;ebből genus-pozícióból</td><td>950</td></tr>
-<tr><td>&nbsp;&nbsp;ebből fejszó-örökléssel, Racka-4B-vel megerősítve</td><td>4 558</td></tr>
-<tr><td>&nbsp;&nbsp;ebből fejszó-örökléssel, <b>jelölt</b> (nem validált)</td><td>1 380</td></tr>
-<tr><td>&nbsp;&nbsp;ebből igazolt felsorolás-tag</td><td>194</td></tr>
-<tr><td>együtt definiált fogalomcsoport (jogszabályonként)</td><td>2 015</td></tr>
-<tr><td>van tipizált éle</td><td>75,2%</td></tr>
+<tr><td><b>is_a-gerinc él</b> (szerkezeti bizonyítékkal)</td><td><b>9 025</b></td></tr>
+<tr><td>&nbsp;&nbsp;ebből genus-pozícióból</td><td>1 220</td></tr>
+<tr><td>&nbsp;&nbsp;ebből fejszó-örökléssel, Racka-4B-vel megerősítve</td><td>5 687</td></tr>
+<tr><td>&nbsp;&nbsp;ebből fejszó-örökléssel, <b>jelölt</b> (nem validált)</td><td>1 759</td></tr>
+<tr><td>&nbsp;&nbsp;ebből igazolt felsorolás-tag</td><td>359</td></tr>
+<tr><td>együtt definiált fogalomcsoport (jogszabályonként)</td><td>2 197</td></tr>
+<tr><td>van tipizált éle</td><td>66,0%</td></tr>
 <tr><td>bármilyen kapcsolattal (az együtt-definiáltságot is beleértve)</td><td>98,6%</td></tr>
 </tbody></table>
 <p class="caption">6. táblázat. A fogalmi háló mutatói.</p>
@@ -298,7 +317,7 @@ figure.flow svg{display:block;width:100%;height:auto}
 <svg viewBox="0 0 880 330" role="img" aria-label="A nyers lexikai élek sorsa a zajszűrőn"><rect x="8" y="34" width="20" height="266" rx="4" fill="#102c27" fill-opacity=".72"/><text x="8" y="20" font-family="system-ui,sans-serif" font-size="14" font-weight="700" fill="#102c27">62 750 nyers lexikai él</text><text x="8" y="320" font-family="system-ui,sans-serif" font-size="11.5" fill="#62716d">puszta szóegyezés, szűrés nélkül</text><path class="ribbon" d="M28,34 C294.0,34 294.0,34 560,34 L560,118.06100398406375 C294.0,118.06100398406375 294.0,129.55652589641434 28,129.55652589641434 Z" fill="#007b59" fill-opacity=".38" style="animation-delay:0.00s"/><rect class="ribbon" x="560" y="34.0" width="20" height="84.1" rx="4" fill="#007b59" style="animation-delay:0.00s"/><text x="592" y="73.0" font-family="system-ui,sans-serif" font-size="14" font-weight="700" fill="#007b59">22 542</text><text x="592" y="90.0" font-family="system-ui,sans-serif" font-size="11.5" fill="#62716d">megtartva &middot; 35.9%</text><path class="ribbon" d="M28,129.55652589641434 C294.0,129.55652589641434 294.0,134.06100398406375 560,134.06100398406375 L560,277.9738007968127 C294.0,277.9738007968127 294.0,293.1497051792829 28,293.1497051792829 Z" fill="#8ba39c" fill-opacity=".38" style="animation-delay:0.48s"/><rect class="ribbon" x="560" y="134.1" width="20" height="143.9" rx="4" fill="#8ba39c" style="animation-delay:0.48s"/><text x="592" y="203.0" font-family="system-ui,sans-serif" font-size="14" font-weight="700" fill="#8ba39c">38 592</text><text x="592" y="220.0" font-family="system-ui,sans-serif" font-size="11.5" fill="#62716d">kiszűrve — a modell szerint nincs kapcsolat &middot; 61.5%</text><path class="ribbon" d="M28,293.1497051792829 C294.0,293.1497051792829 294.0,293.9738007968127 560,293.9738007968127 L560,300.0 C294.0,300.0 294.0,300.0 28,300.0 Z" fill="#c86c27" fill-opacity=".38" style="animation-delay:0.96s"/><rect class="ribbon" x="560" y="294.0" width="20" height="6.0" rx="4" fill="#c86c27" style="animation-delay:0.96s"/><text x="592" y="294.0" font-family="system-ui,sans-serif" font-size="14" font-weight="700" fill="#c86c27">1 616</text><text x="592" y="311.0" font-family="system-ui,sans-serif" font-size="11.5" fill="#62716d">ítélet nélkül esett ki &middot; 2.6%</text></svg>
 <figcaption class="caption">A nyers lexikai élek sorsa. A három ág összege pontosan a kiindulás — ez az ábra feltétele, nem dísze. A narancs sáv a <b>hiányunk</b>, nem az eredményünk: ezeket az élpárokat egyetlen bíró sem látta.</figcaption>
 </figure>
-<p>A legfontosabb szám itt a <b>35,1%</b>: a puszta szóegyezésből származó élek 64,9%-a esik ki a zajszűrőn. Aki a lexikai egyezést szűrés nélkül fogalmi kapcsolatnak tekinti, csaknem háromszorosan túlbecsüli a háló sűrűségét. (A kiszűrt élek kézi mintán ~93%-ban tényleg véletlen egyezések — de ez a mérés a GPT-4.1-mini ítéleteire vonatkozik; a mai élek 63,6%-át adó Qwen3-14B-re nincs ilyen mérésünk, és a két bíró küszöbe igazoltan eltér.) A 7 082 gerinc-él ezzel szemben nem ítélet, hanem szerkezeti tény: mindegyikhez ott a bizonyító mondatrészlet vagy a bizonyító fogalomnév, és a nézetben ez jelenik meg a fogalom hierarchia-sávjában (tágabb/szűkebb fogalmak, kibontható fa).</p>
+<p>A legfontosabb szám itt a <b>30,0%</b>: a puszta szóegyezésből származó élek 70,0%-a esik ki a zajszűrőn. Aki a lexikai egyezést szűrés nélkül fogalmi kapcsolatnak tekinti, csaknem háromszorosan túlbecsüli a háló sűrűségét. (A kiszűrt élek kézi mintán ~93%-ban tényleg véletlen egyezések — de ez a mérés a GPT-4.1-mini ítéleteire vonatkozik; a mai élek 64,6%-át adó Qwen3-14B-re nincs ilyen mérésünk, és a két bíró küszöbe igazoltan eltér.) A 7 082 gerinc-él ezzel szemben nem ítélet, hanem szerkezeti tény: mindegyikhez ott a bizonyító mondatrészlet vagy a bizonyító fogalomnév, és a nézetben ez jelenik meg a fogalom hierarchia-sávjában (tágabb/szűkebb fogalmak, kibontható fa).</p>
 
 <h3>4.3 Hídfogalmak</h3>
 <p>A négylépcsős szűrés végén 1 080 jelöltből <b>261</b> hídfogalom maradt. Példák: <code>zálogjog</code>, <code>cselekvőképesség</code>, <code>adásvétel</code>, <code>deviza</code>, <code>közokirat</code>, <code>elzárás</code>, <code>nevelőszülő</code>, <code>ivóvíz</code>, <code>termőföld</code>, <code>államhatár</code>.</p>
