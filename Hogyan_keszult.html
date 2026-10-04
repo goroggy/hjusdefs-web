@@ -124,6 +124,16 @@ figure.flow svg{display:block;width:100%;height:auto}
 .ribbon{opacity:0;animation:ribbon-in .9s ease forwards}
 @keyframes ribbon-in{to{opacity:1}}
 @media (prefers-reduced-motion:reduce){.ribbon{animation:none;opacity:1}}
+
+/* ---- TELEFON. Merve (390 px): a Hogyan_keszult.html 497 px szeles volt a
+   tablazatai miatt. Egy hatoszlopos modszertani tabla nem olvashato 390
+   px-en, ezert nem osszenyomjuk, hanem SAJAT vizszintes gorgetest kap --
+   a lap maga nem log ki. ---- */
+@media(max-width:640px){
+  .wrap{padding-left:12px;padding-right:12px}
+  table{display:block;max-width:100%;overflow-x:auto}
+  pre,code{overflow-x:auto;max-width:100%}
+}
 </style>
 <div class="wrap">
 <nav><a href="hjusdefs.html">&larr; Vissza a gyűjteményhez</a>

@@ -54,6 +54,12 @@ nav.top a:hover{border-color:var(--green)}
   letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-top:2px}
 .cols{display:grid;grid-template-columns:320px 1fr;gap:22px;align-items:start}
 @media(max-width:860px){.cols{grid-template-columns:1fr}}
+/* ---- TELEFON. Merve (390 px): a lap 507 px szeles volt, vagyis oldalra
+   kellett huzogatni. A racs mar egyoszlopos volt, de a racs-elem alap
+   `min-width:auto`-ja miatt nem tudott a tartalma ala zsugorodni: egy hosszu,
+   torhetetlen fogalomnev 485 px-re feszitette a panelt. ---- */
+.cols>*{min-width:0}
+
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;
   box-shadow:var(--shadow);padding:18px}
 #q{
@@ -135,6 +141,19 @@ ul.rellist a:hover{border-color:#1d5a66}
 .legend{margin-top:22px;font-family:system-ui,sans-serif;font-size:.76rem;color:var(--muted)}
 .legend div{margin:5px 0;display:flex;gap:9px;align-items:baseline}
 .empty{color:var(--muted);font-style:italic}
+@media(max-width:640px){
+  .wrap{padding:20px 12px 50px}
+  .panel{padding:12px}
+  #roots button,#tree button,.crumb{overflow-wrap:anywhere}
+  /* a jelolo-cimke nowrap-je -- telefonon ez feszitette ki a lapot */
+  .badge{white-space:normal}
+  /* A fa behuzasa szintenkent 32 px (12 margo + 20 padding). Harom-negy
+     szinten ez elfogyasztja a 390 px-es kepernyot, es a melyebb sorok
+     kilognak -- merve: 469 px. Telefonon feleakkora behuzas. */
+  ul.tree ul{margin-left:5px;padding-left:11px}
+  ul.tree ul > li.node::before{left:-11px;width:7px}
+  .row{gap:6px;padding:5px 4px}
+}
 </style>
 <div class="wrap">
 <nav class="top">
