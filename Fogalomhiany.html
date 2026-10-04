@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="hu">
+<meta charset="utf-8">
+<title>Mi az üdítőital? — HJusDefs</title>
+<meta name="description" content="A 14/2024. (VII. 8.) AB határozat a gyűjtemény szemszögéből: mit jelent, ha egy törvény olyan fogalmat használ, amelyet más jogszabályok eltérően határoznak meg.">
+<link rel="canonical" href="https://goroggy.github.io/hjusdefs-web/Fogalomhiany.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HJus">
+<meta property="og:locale" content="hu_HU">
+<meta property="og:title" content="Mi az üdítőital? — egy alkotmánybírósági ügy">
+<meta property="og:description" content="Az Alkotmánybíróság megsemmisített egy szabályt, mert nem lehetett eldönteni, mit jelent benne az „üdítőital”. Két alkotmánybíró szerint a definíciók más jogszabályokban ott vannak. Mindkét állítás ellenőrizhető — eddig nem volt mivel.">
+<meta property="og:url" content="https://goroggy.github.io/hjusdefs-web/Fogalomhiany.html">
+<meta name="twitter:card" content="summary">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- organo-stilus -->
+<style>
+:root{
+  --ink:#102c27; --muted:#62716d; --green:#007b59; --green-dark:#005d46;
+  --green-soft:#e2f3ed; --aqua:#dceff2; --orange:#c86c27; --orange-soft:#f8e6d6;
+  --line:#cfddd8; --panel:rgba(255,255,255,.94);
+  --shadow:0 18px 45px rgba(21,52,45,.11); --accent:#007b59;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; color:var(--ink); font-family:Georgia,"Times New Roman",serif;
+  font-size:18px; line-height:1.62; min-height:100vh;
+  background:
+    radial-gradient(circle at 84% 4%, rgba(140,197,184,.22), transparent 34rem),
+    linear-gradient(135deg,#f8faf7,#eef3ef);
+}
+.wrap{max-width:52rem;margin:0 auto;padding:34px 24px 90px}
+nav{
+  font-family:system-ui,sans-serif;font-size:.8rem;margin:0 0 26px;
+  display:flex;gap:16px;flex-wrap:wrap
+}
+nav a{color:var(--green-dark);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:1px}
+nav a:hover{border-color:var(--green)}
+h1{
+  font-size:clamp(2rem,4.4vw,2.7rem);line-height:1.08;font-weight:600;
+  letter-spacing:-.015em;margin:.1em 0 .25em;text-wrap:balance
+}
+em.sub{
+  display:block;font-style:normal;color:var(--muted);font-size:1.02rem;
+  line-height:1.45;margin:0 0 6px;max-width:44rem
+}
+.meta{
+  font-family:system-ui,sans-serif;font-size:.72rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--green);font-weight:850;margin:14px 0 0
+}
+h2{
+  font-size:1.5rem;font-weight:600;letter-spacing:-.01em;
+  margin:2.4em 0 .5em;padding-top:.5em;border-top:1px solid var(--line)
+}
+h3{font-size:1.14rem;font-weight:600;margin:1.9em 0 .4em;color:var(--green-dark)}
+p,li{max-width:44rem}
+p{margin:0 0 1.05em}
+a{color:var(--green-dark);text-decoration:none;border-bottom:1px solid var(--line)}
+a:hover{border-color:var(--green)}
+code{
+  font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.85em;
+  background:var(--green-soft);color:var(--green-dark);
+  padding:.1em .38em;border-radius:5px
+}
+.abstract{
+  background:var(--panel);border:1px solid var(--line);border-radius:15px;
+  box-shadow:var(--shadow);padding:22px 26px;margin:26px 0 32px;font-size:.97rem
+}
+.abstract h3{margin-top:0;color:var(--green);font-family:system-ui,sans-serif;
+  font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;font-weight:850}
+.abstract p:last-child{margin-bottom:0}
+table{
+  border-collapse:collapse;width:100%;margin:18px 0;font-size:.92rem;
+  font-family:system-ui,sans-serif;background:var(--panel);
+  border:1px solid var(--line);border-radius:12px;overflow:hidden
+}
+th,td{padding:9px 13px;text-align:left;border-bottom:1px solid var(--line);
+  vertical-align:top;font-variant-numeric:tabular-nums}
+th{background:var(--green-soft);color:var(--green-dark);font-weight:700;
+  font-size:.76rem;letter-spacing:.04em;text-transform:uppercase}
+tr:last-child td{border-bottom:0}
+.caption{font-family:system-ui,sans-serif;font-size:.78rem;color:var(--muted);
+  margin:-8px 0 26px}
+blockquote{
+  margin:18px 0;padding:10px 18px;border-left:3px solid var(--green-soft);
+  color:#41524e;font-style:italic
+}
+/* KIHIRDETESKORI ALLAPOT. Ugyanaz a borostyan sav, mint a hjusdefs.html
+   #statenote-ja -- egy fenntartas, egy forma, mind a harom lapon. Eddig a
+   "kihirdeteskori allapot" mondat a Hogyan_keszult.html es az
+   Ellentmondasok.html KORLATOK-listajanak kozepen allt, a Miez.html-bol
+   pedig teljesen hianyzott; a legfontosabb lehatarolast nem lehet
+   felsorolas-elembe temetni. */
+p.statenote{
+  background:var(--orange-soft);border-left:4px solid var(--orange);
+  padding:12px 18px;border-radius:0 8px 8px 0;margin:18px 0 22px;
+  font-size:.95rem;max-width:none
+}
+/* A kihirdetes eve az idezet mellett -- ugyanaz a felirat, mint a
+   hjusdefs.html .pubyear pirulajan ("ÉÉÉÉ-ben kihirdetett szöveg"). */
+.pubyear{
+  display:inline-block;font-family:system-ui,sans-serif;font-size:.72rem;
+  background:var(--green-soft);color:var(--green-dark);
+  border:1px solid var(--line);border-radius:4px;padding:1px 7px;margin-left:6px;
+  white-space:nowrap
+}
+hr{border:0;border-top:1px solid var(--line);margin:34px 0}
+.toc{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  box-shadow:var(--shadow);padding:16px 22px;margin:26px 0;font-size:.92rem
+}
+.toc ol{margin:.3em 0;padding-left:1.3em}
+.toc a{text-decoration:none;border:0}
+.toc a:hover{border-bottom:1px solid var(--green)}
+sup a{text-decoration:none;border:0;font-weight:700;color:var(--green);font-size:.8em}
+ol.refs{font-size:.86rem;color:#3d4d49}
+ol.refs li{margin:0 0 .7em;padding:3px 7px;border-radius:7px}
+ol.refs li:target{background:var(--green-soft)}
+.src{font-family:system-ui,sans-serif;font-size:.78rem;color:var(--muted);margin:2px 0 0}
+.van{color:var(--green);font-weight:700}
+.nincs{color:var(--orange);font-weight:700}
+figure.flow{margin:26px 0 8px;padding:22px 20px 14px;background:var(--panel);
+  border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow)}
+figure.flow svg{display:block;width:100%;height:auto}
+.ribbon{opacity:0;animation:ribbon-in .9s ease forwards}
+@keyframes ribbon-in{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.ribbon{animation:none;opacity:1}}
+
+/* ---- TELEFON. Merve (390 px): a Hogyan_keszult.html 497 px szeles volt a
+   tablazatai miatt. Egy hatoszlopos modszertani tabla nem olvashato 390
+   px-en, ezert nem osszenyomjuk, hanem SAJAT vizszintes gorgetest kap --
+   a lap maga nem log ki. ---- */
+@media(max-width:640px){
+  .wrap{padding-left:12px;padding-right:12px}
+  table{display:block;max-width:100%;overflow-x:auto}
+  pre,code{overflow-x:auto;max-width:100%}
+}
+</style>
+<div class="wrap">
+<nav><a href="hjusdefs.html">&larr; Vissza a gyűjteményhez</a>
+<a href="Miez.html">Mi ez?</a><a href="Hogyan_keszult.html">Hogyan készült?</a><a href="Ellentmondasok.html">Ellentmondások</a><a href="Fogalomhiany.html">Fogalomhiány</a><a href="fogalomfa.html">Fogalomfa</a></nav>
+
+<h1>Mi az üdítőital?</h1>
+<em class="sub">Egy alkotmánybírósági ügy, amelyben mindkét oldal egy ellenőrizhető tényállítást tett — és egyik sem tudta ellenőrizni</em>
+<p class="meta">Esettanulmány a HJusDefs gyűjteményhez · 14/2024. (VII. 8.) AB határozat · 2026</p>
+
+<div class="abstract">
+<h3>Röviden</h3>
+<p>A kereskedelmi törvény előírta az italt árusító vendéglátó üzletnek, hogy termékkategóriánként <i>legalább két gyártó</i> termékét tartsa. Ahhoz, hogy a kocsmáros ezt betartsa, tudnia kellett volna, mi számít „üdítőitalnak" és ki számít „gyártónak". Egyik sem volt a törvényben.</p>
+<p>Az Alkotmánybíróság 2024-ben megsemmisítette a rendelkezést: a kifejezések jelentése nem határozható meg egyértelműen. <b>Két alkotmánybíró különvéleménye szerint viszont a definíciók megtalálhatók</b> — csak más jogszabályokban. Mindkettő ugyanarról a tényről állít valamit: hány jogszabály határozza meg ezt a fogalmat, és egyeznek-e. Ez a lap megnézi.</p>
+</div>
+
+<p class="statenote"><b>Kihirdetéskori (közlöny-)állapot.</b> Az alábbi idézetek abban a formában szerepelnek, ahogy a meghatározást a Magyar Közlönyben kihirdették — <b>ez nem a hatályos szöveg</b>. Minden idézet mellett ott áll a kihirdetés éve; a mai szöveget a Nemzeti Jogszabálytárban kell ellenőrizni.</p>
+
+<h2>Az ügy</h2>
+<p>A kereskedelemről szóló 2005. évi CLXIV. törvény (Kertv.) 7/B. §-a a <i>jelentős piaci erővel rendelkező gyártókkal</i> szembeni portfólió-bővítési kötelezettséget írt elő: az italt árusító vendéglátó üzlet köteles „sör, üdítő- és gyümölcsital, gyümölcslé és gyümölcsnektár, valamint ásványvíz és szikvíz (szódavíz)" esetében termékenként legalább két különböző gyártó termékét forgalmazni.</p>
+<p>A szabály címzettje a kocsma, a presszó, a szálláshely. A kötelezettség megsértése versenyfelügyeleti eljárást és bírságot von maga után. A Fővárosi Törvényszék előtt folyó perben az eljáró tanács bírói kezdeményezéssel fordult az Alkotmánybírósághoz: a felsorolt termékkategóriákat a törvény nem határozza meg, és nem is utal arra, hol kellene keresni őket.</p>
+
+<h2>Amit a testület mondott</h2>
+<p>Az Alkotmánybíróság a rendelkezést — a sörre vonatkozó rész kivételével — megsemmisítette. Az indokolás szerint a kifejezések szakjogi jelentése <b>részben adójogi, részben élelmiszerbiztonsági tárgyú</b> jogszabályokban található meg, több esetben párhuzamosan mindkét jogterületen, és a felsorolás olyan kifejezést is tartalmaz, amelynek <i>egyik jogterületen sincs</i> meghatározása.</p>
+<blockquote>„Amikor egy jogszabály több más jogszabályban, az adott jogszabályok alkalmazása körében, egymástól eltérő tartalommal meghatározott fogalmat használ, és így a fogalom egymással konkuráló jelentéstartalommal is alkalmazható, egyértelmű jogalkotói rendelkezés hiányában a jogalkalmazó nincs abban a helyzetben, hogy meg tudja határozni, hogy a különböző értelmező rendelkezések közül melyiket kell alapul vennie."
+<cite>14/2024. (VII. 8.) AB határozat, Indokolás [101]</cite></blockquote>
+<p>A sörre vonatkozó részt azért nem semmisítette meg, mert ott a jogalkotó <b>kimondta, hol keressük</b>: a Kertv. a jövedéki adóról szóló törvény sörfogalmára utal.</p>
+
+<h2>Amit a különvélemények mondtak</h2>
+<p>Három alkotmánybíró nem értett egyet. A két kifejtett különvélemény lényege:</p>
+<ul>
+<li><b>A definíciók megvannak</b>, csak különböző szintű jogforrásokban és tájékoztatókban: a gyümölcslé és a gyümölcsnektár fogalmát a Magyar Élelmiszerkönyv 11. melléklete, az ásványvízét és a szikvízét a palackozási rendelet, az üdítőitalét egy 2007-es minisztériumi közlemény tartalmazza. Így a kérdés jogalkalmazói értelmezéssel megoldható.</li>
+<li><b>Minden norma értelmezésre szorul</b>, és a jogszabályok egyre növekvő száma ezt az igényt folyamatosan növeli; megsemmisítésnek csak akkor van helye, ha a norma eleve értelmezhetetlen. A jogbiztonság elvéből nem következik a jogalkotó olyan kötelezettsége, hogy minden fogalmat minden jogszabályban külön meghatározzon.</li>
+</ul>
+<p>Mindkét oldalnak igaza lehet. De figyeljük meg, mi hiányzik: <b>egyik fél sem tudta megnézni, hány jogszabály határozza meg ugyanazt a fogalmat, és miben másképp.</b> Az Alkotmánybíróságnak hat jogforrást kellett kézzel összeszednie, amelyek közül az egyikről maga a határozat mondja ki, hogy nem minősül normának.</p>
+
+<h2>Amit a gyűjtemény mond</h2>
+<p>A gyűjtemény a Magyar Közlöny 1990–2026 közötti számaiból és uniós jogi aktusokból kinyert meghatározásokat tartalmazza, <b>fogalom szerint</b> rendezve. Az ügyben szereplő kifejezésekre mérve:</p>
+
+<table><thead><tr><th>fogalom</th><th>meghatározás</th><th>hol</th></tr></thead><tbody>
+<tr><td><b>sör</b></td><td>1</td><td>jövedéki adóról szóló 2016. évi LXVIII. törvény — <i>az AB ezt a részt nem semmisítette meg</i></td></tr>
+<tr><td><b>szikvíz</b></td><td>1</td><td>65/2004. (IV. 27.) FVM–ESzCsM–GKM együttes rendelet</td></tr>
+<tr><td><b>gyümölcslé</b></td><td>5</td><td>mind a Magyar Élelmiszerkönyvre, illetve a 2001/112/EK irányelvre mutat tovább</td></tr>
+<tr><td><b>üdítőital</b></td><td>0</td><td>—</td></tr>
+<tr><td><b>gyümölcsital</b></td><td>0</td><td>—</td></tr>
+<tr><td><b>gyümölcsnektár</b></td><td>0</td><td>—</td></tr>
+<tr><td><b>ásványvíz</b></td><td>0</td><td>— a palackozási rendelet a <i>„természetes ásványvíz"</i>-et határozza meg, nem az „ásványvíz"-et</td></tr>
+<tr><td><b>szódavíz</b></td><td>0</td><td>—</td></tr>
+</tbody></table>
+
+<p>A gyűjtemény tehát <b>önállóan kirajzolta ugyanazt a határvonalat, amit a testület meghúzott</b>: amit megsemmisített, arra nulla találat; a sörre, amit nem semmisített meg, pontosan egy — abban a törvényben, amelyre a jogalkotó utalt.</p>
+
+<p>A „szikvíz" egyetlen meghatározása egyébként teljesen szabályos és érthető:</p>
+<blockquote>„olyan szén-dioxiddal dúsított ivóvíz, amelyet szifonfejes palackban hoznak forgalomba"
+<cite>65/2004. (IV. 27.) FVM–ESzCsM–GKM együttes rendelet · 2004-ben kihirdetett szöveg</cite></blockquote>
+<p>Ugyanennek a rendeletnek a fogalmai közül az <b>„ivóvíz"</b> és a <b>„forrásvíz"</b> másutt is meg van határozva — az 5/2023. (I. 12.) Korm. rendeletben —, és a két szöveg nem azonos. Nem ellentmondás: a két rendelet más célra szabályoz. De pontosan ez az, amiről a határozat beszél: a jogalkalmazónak el kell döntenie, melyiket vegye alapul.</p>
+
+<h2>Aki a gyártó</h2>
+<p>Az ügy másik kifogásolt kifejezése a <b>„gyártó"</b>. A Kertv. nem határozza meg, és a hozzá fűződő jogkövetkezmények mégis a gyártóhoz kötődnek. A gyűjteményben:</p>
+
+<table><thead><tr><th></th><th>db</th></tr></thead><tbody>
+<tr><td>meghatározás összesen</td><td><b>50</b></td></tr>
+<tr><td>ebből: továbbküld egy másik jogszabályra</td><td>15</td></tr>
+<tr><td>ebből: saját szöveggel határozza meg</td><td>35</td></tr>
+<tr><td>a saját szövegűek között különböző megfogalmazás</td><td><b>30</b></td></tr>
+</tbody></table>
+
+<p>Ötven jogszabály, 1997-től 2026-ig, egyik sem a Kertv. Négy közülük:</p>
+
+<blockquote>„az árut üzletszerűen előállító vagy termelő, illetve az, aki az árun elhelyezett nevével, védjegyével vagy egyéb megkülönböztető jelzés alkalmazásával önmagát az áru gyártójaként tünteti fel"
+<cite>1997. évi CLV. törvény a fogyasztóvédelemről · 1997</cite></blockquote>
+
+<blockquote>„az a természetes vagy jogi személy, aki a terméket gyártja, vagy aki saját nevében vagy védjegye alatt egy terméket terveztet, vagy gyártat, vagy forgalmaz"
+<cite>Az Európai Parlament és a Tanács 765/2008/EK rendelete · 2008</cite></blockquote>
+
+<blockquote>„az a gazdálkodó szervezet, amely teljes felelősséggel bír a védőeszköz tervezéséért, gyártásáért, csomagolásáért és jelöléséért a forgalomba hozatal előtt, függetlenül attól, hogy ezeket a feladatokat ő vagy megbízásából más személy végzi"
+<cite>18/2008. (XII. 3.) SZMM rendelet · 2008</cite></blockquote>
+
+<blockquote>„a Pftv. 2. § 11. pontja szerinti fogalom"
+<cite>23/2016. (VII. 7.) NGM rendelet · 2016 — és ugyanígy még két NGM-rendelet ugyanabban az évben</cite></blockquote>
+
+<p>A különbségek nem stilisztikaiak. Az első a <i>látszatot</i> is gyártásnak veszi (aki a nevét az árura teszi), a harmadik a <i>felelősséget</i> teszi a középpontba, a negyedik nem mond semmit, csak továbbküld. Egy vendéglátós számára, aki azt szeretné tudni, kitől kell két terméket tartania, ez a szóródás nem elméleti kérdés.</p>
+
+<p><a class="cta" href="hjusdefs.html?fogalom=gy%C3%A1rt%C3%B3">Nézd meg mind az 50-et a gyűjteményben &rarr;</a></p>
+
+<h2>Amit ez a lap nem mond</h2>
+<ul>
+<li><b>Nem mondja, hogy az Alkotmánybíróságnak igaza volt, vagy hogy nem volt igaza.</b> A megsemmisítés jogkérdés; a gyűjtemény csak azt méri, hány helyen és hogyan határozza meg a jog ugyanazt a kifejezést.</li>
+<li><b>Nem teljes.</b> A gyűjtemény a Magyar Közlöny kihirdetett szövegére épül. A különvélemények által hivatkozott források egy része <b>nincs benne</b>: a Magyar Élelmiszerkönyv 11. melléklete a gyümölcslevet nem maga határozza meg, hanem egy külön kiadott előírásra (MÉ 1-3-2001/112) utal tovább, a 2007-es minisztériumi közlemény pedig nem jogszabály. Épp ez a tanulság: a definíciók léteznek, csak nem ott, ahol az ember keresi őket, és nem egy ugrásra.</li>
+<li><b>A kinyerés gépi, tehát hibázhat.</b> Minden meghatározás a saját forrására linkel; a módszertan és a mérések a <a href="Hogyan_keszult.html">„Hogyan készült?"</a> lapon olvashatók.</li>
+</ul>
+
+<p class="meta">Rokon eset ugyanerről a jelenségről, a másik irányból: <a href="Ellentmondasok.html">Élettárs: hozzátartozó vagy sem?</a> — egy fogalom, 37 meghatározás, és az élettárs hol benne van, hol nincs.</p>
+
+</div>

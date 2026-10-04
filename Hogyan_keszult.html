@@ -137,7 +137,7 @@ figure.flow svg{display:block;width:100%;height:auto}
 </style>
 <div class="wrap">
 <nav><a href="hjusdefs.html">&larr; Vissza a gyűjteményhez</a>
-<a href="Miez.html">Mi ez?</a><a href="Hogyan_keszult.html">Hogyan készült?</a><a href="Ellentmondasok.html">Ellentmondások</a><a href="fogalomfa.html">Fogalomfa</a></nav>
+<a href="Miez.html">Mi ez?</a><a href="Hogyan_keszult.html">Hogyan készült?</a><a href="Ellentmondasok.html">Ellentmondások</a><a href="Fogalomhiany.html">Fogalomhiány</a><a href="fogalomfa.html">Fogalomfa</a></nav>
 
 <h1>Fogalmi háló a magyar jogszabályok értelmező rendelkezéseiből 0.9</h1>
 <em class="sub">Determinisztikus kinyerés, zajszűrt fogalmi háló és szerkezeti gerinc: módszer és első eredmények 20 167 Magyar Közlöny-dokumentumon</em>
@@ -148,7 +148,7 @@ figure.flow svg{display:block;width:100%;height:auto}
 <p><b>Háttér.</b> A magyar jogszabályok „Értelmező rendelkezések" szakaszai több ezer legáldefiníciót (fogalommeghatározást) tartalmaznak, de ezek jogszabályonként elszigetelten élnek: nincs olyan összeállítás, amelyből kiderülne, mely fogalmakat hány jogszabály határoz meg, milyen eltéréssel, és melyik definíció melyik másikra épül.</p>
 <p><b>Célkitűzés.</b> A munka három kérdést vizsgál: a definíciós <i>redundanciát</i>, a definíciók közötti <i>fogalmi függést</i>, valamint a <i>hídfogalmakat</i> — azokat a kifejezéseket, amelyekre sok meghatározás hivatkozik, de a <i>vizsgált korpuszban</i> egyetlen jogszabály sem definiálja őket (a vizsgált korpusz nem az összes hatályos jogszabály).</p>
 <p><b>Módszer.</b> 20 167 Magyar Közlöny-dokumentum (2010–2026, törvény és rendelet) determinisztikus mintaillesztéses feldolgozása, kiegészítve 198 korábbi jogszabály (1990–2009) közlönyállapotával: ezeket a korpusz hivatkozza, de nem tartalmazta, és a szövegük a Nemzeti Jogszabálytárból való, ugyanabban a kihirdetéskori alakban. Ugyanezen az alapon került be 33 uniós jogi aktus magyar nyelvű, kihirdetett szövege is (CELLAR, 3-as CELEX-szektor): a korpusz 2 990 meghatározása nem definiál, hanem uniós aktusra küld tovább, és e mutatók 47,2%-a egyetlen rendeletre, a 651/2014/EU-ra. A nyers lexikai éleket nyelvmodell-alapú zajszűrés tisztítja (GPT-4.1-mini, majd a korpusz bővülésével keletkezett új élpárokon a helyben futtatott Qwen3-14B, mindkettő <code>T=0</code>, zárt válaszkészlet — a két bíró küszöbe eltér, l. lent); a fogalmi gerinc viszont nem modellcímkékből, hanem a definíciók nyelvtani szerkezetéből és a fogalomnevek morfológiájából épül (genus-pozíció, puszta felsorolás, fejszó-öröklés), minden élhez a bizonyító mondatrészlettel vagy névpárral — a felsorolásból származó éleket helyben futtatott Racka-4B behelyettesítéses próbája („a ⟨tag⟩ egy ⟨definiendum⟩?") igazolja. A hídfogalom-jelöltek négylépcsős szűrésen mennek át (korpuszgyakoriság, szótári ellenőrzés, egységes modell-osztályozás, kézi felülírás).</p>
-<p><b>Eredmények.</b> 30 093 kinyert definíció 2 294 jogszabályból, 16 055 csomópont. A definíciók 95,8%-ánál a kanonikus azonosító pontosan arra a szövegegységre mutat, ahol a definíció áll (<code>exact</code>); 3,7%-nál a hivatkozott egység több definíciót is tartalmaz (<code>shared</code>), 0,4%-nál eltérés van (<code>mismatch</code>). A 79 100 nyers lexikai élből a zajszűrés után 22 675 marad. A nézetben megjelenő is_a-gerinc 9 328 éle (1 265 genus-pozíciós, 7 691 fejszó-örökölt — ebből 5 861-at a helyi Racka-4B behelyettesítéses próbája is megerősít, 372 igazolt felsorolás-tag) mindegyike a forrásmondat idézetével vagy a bizonyító fogalomnévvel ellenőrizhető. 261 hídfogalom, ezek 62,8%-a köznyelvi regiszterű; 63 fogalomnál viszont két független nyelvi forrás egybehangzóan a szakmai jelleget erősíti meg. Egy független feldolgozási útvonallal szemben — a 2026-08-13-i korpuszon mérve — a definíciók 92,6%-a szó szerint egyezett.</p>
+<p><b>Eredmények.</b> 30 099 kinyert definíció 2 295 jogszabályból, 16 059 csomópont. A definíciók 95,8%-ánál a kanonikus azonosító pontosan arra a szövegegységre mutat, ahol a definíció áll (<code>exact</code>); 3,7%-nál a hivatkozott egység több definíciót is tartalmaz (<code>shared</code>), 0,4%-nál eltérés van (<code>mismatch</code>). A 79 117 nyers lexikai élből a zajszűrés után 22 675 marad. A nézetben megjelenő is_a-gerinc 9 331 éle (1 265 genus-pozíciós, 7 692 fejszó-örökölt — ebből 5 862-at a helyi Racka-4B behelyettesítéses próbája is megerősít, 374 igazolt felsorolás-tag) mindegyike a forrásmondat idézetével vagy a bizonyító fogalomnévvel ellenőrizhető. 261 hídfogalom, ezek 62,8%-a köznyelvi regiszterű; 63 fogalomnál viszont két független nyelvi forrás egybehangzóan a szakmai jelleget erősíti meg. Egy független feldolgozási útvonallal szemben — a 2026-08-13-i korpuszon mérve — a definíciók 92,6%-a szó szerint egyezett.</p>
 <p><b>Következtetés.</b> A determinisztikus kinyerés, a zajszűrt lexikai háló és a szerkezeti bizonyítékon alapuló fogalmi gerinc kombinációja ellenőrizhető és reprodukálható fogalomtérképet ad: a nézet minden állítása vagy szó szerinti jogszabály-idézet, vagy a forrásmondattal hátolt szerkezeti viszony.</p>
 <p style="margin-bottom:0"><b>Kulcsszavak:</b> legáldefiníció · jogi fogalmi háló · normavilágosság · információkinyerés · jogi informatika · magyar jogi korpusz</p>
 </div>
@@ -303,31 +303,31 @@ figure.flow svg{display:block;width:100%;height:auto}
 <h3>4.1 A korpusz</h3>
 <table><thead><tr><th>mutató</th><th>érték</th></tr></thead><tbody>
 <tr><td>hatókörbe eső Közlöny-dokumentum (törvény és rendelet)</td><td>20 167</td></tr>
-<tr><td>definíciót adó jogszabály</td><td>2 294</td></tr>
-<tr><td>kinyert definíció</td><td>30 093</td></tr>
-<tr><td>&nbsp;&nbsp;ebből <code>exact</code> citációjú (a kanonikus azonosító pontosan a definíció helyére mutat)</td><td>28 835 (<b>95,8%</b>)</td></tr>
+<tr><td>definíciót adó jogszabály</td><td>2 295</td></tr>
+<tr><td>kinyert definíció</td><td>30 099</td></tr>
+<tr><td>&nbsp;&nbsp;ebből <code>exact</code> citációjú (a kanonikus azonosító pontosan a definíció helyére mutat)</td><td>28 841 (<b>95,8%</b>)</td></tr>
 <tr><td>&nbsp;&nbsp;ebből <code>shared</code> (a hivatkozott egység több definíciót is tartalmaz)</td><td>1 128 (3,7%)</td></tr>
 <tr><td>&nbsp;&nbsp;ebből <code>mismatch</code> / <code>unknown</code></td><td>130 (0,4%)</td></tr>
-<tr><td>egyedi fogalom (szótövezve)</td><td>15 905</td></tr>
-<tr><td>kereshető fogalom a viewerben</td><td>15 337</td></tr>
+<tr><td>egyedi fogalom (szótövezve)</td><td>15 909</td></tr>
+<tr><td>kereshető fogalom a viewerben</td><td>15 341</td></tr>
 <tr><td>ELI-hivatkozással ellátva</td><td>100%</td></tr>
 </tbody></table>
 <p class="caption">5. táblázat. A korpusz alapmutatói.</p>
 
 <h3>4.2 A fogalmi háló</h3>
 <table><thead><tr><th>mutató</th><th>érték</th></tr></thead><tbody>
-<tr><td>csomópont (minden definiált fogalom)</td><td>16 055</td></tr>
-<tr><td>nyers lexikai él (szóegyezés, szűrés nélkül)</td><td>79 100</td></tr>
+<tr><td>csomópont (minden definiált fogalom)</td><td>16 059</td></tr>
+<tr><td>nyers lexikai él (szóegyezés, szűrés nélkül)</td><td>79 117</td></tr>
 <tr><td>zajszűrés után megtartott él</td><td>22 675 (<b>28,7%</b>)</td></tr>
 <tr><td>&nbsp;&nbsp;ebből a GPT-4.1-mini ítéletéből (2026-08)</td><td>7 981 (35,2%)</td></tr>
 <tr><td>&nbsp;&nbsp;ebből a helyi Qwen3-14B ítéletéből (2026-09)</td><td>14 694 (64,8%)</td></tr>
 <tr><td>ebből HIVATKOZIK / BŐVÍT (determinisztikus szabályból)</td><td>1 564</td></tr>
-<tr><td><b>is_a-gerinc él</b> (szerkezeti bizonyítékkal)</td><td><b>9 328</b></td></tr>
+<tr><td><b>is_a-gerinc él</b> (szerkezeti bizonyítékkal)</td><td><b>9 331</b></td></tr>
 <tr><td>&nbsp;&nbsp;ebből genus-pozícióból</td><td>1 265</td></tr>
-<tr><td>&nbsp;&nbsp;ebből fejszó-örökléssel, Racka-4B-vel megerősítve</td><td>5 861</td></tr>
+<tr><td>&nbsp;&nbsp;ebből fejszó-örökléssel, Racka-4B-vel megerősítve</td><td>5 862</td></tr>
 <tr><td>&nbsp;&nbsp;ebből fejszó-örökléssel, <b>jelölt</b> (nem validált)</td><td>1 830</td></tr>
-<tr><td>&nbsp;&nbsp;ebből igazolt felsorolás-tag</td><td>372</td></tr>
-<tr><td>együtt definiált fogalomcsoport (jogszabályonként)</td><td>2 226</td></tr>
+<tr><td>&nbsp;&nbsp;ebből igazolt felsorolás-tag</td><td>374</td></tr>
+<tr><td>együtt definiált fogalomcsoport (jogszabályonként)</td><td>2 227</td></tr>
 <tr><td>van tipizált éle</td><td>65,0%</td></tr>
 <tr><td>bármilyen kapcsolattal (az együtt-definiáltságot is beleértve)</td><td>98,6%</td></tr>
 </tbody></table>
