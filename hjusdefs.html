@@ -1,7 +1,17 @@
 <!doctype html>
+<html lang="hu">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>HJusDefs — jogszabályi definíciók</title>
+<meta name="description" content="30 093 jogszabályi fogalommeghatározás a Magyar Közlönyből és uniós jogi aktusokból, kihirdetéskori állapotban. Egy fogalomról megmutatja, hány másik jogszabály határozza meg ugyanazt — és miben másképp.">
+<link rel="canonical" href="https://goroggy.github.io/hjusdefs-web/hjusdefs.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HJus">
+<meta property="og:locale" content="hu_HU">
+<meta property="og:title" content="HJusDefs — jogszabályi definíciók">
+<meta property="og:description" content="30 093 jogszabályi fogalommeghatározás a Magyar Közlönyből és uniós jogi aktusokból, kihirdetéskori állapotban. Egy fogalomról megmutatja, hány másik jogszabály határozza meg ugyanazt — és miben másképp.">
+<meta property="og:url" content="https://goroggy.github.io/hjusdefs-web/hjusdefs.html">
+<meta name="twitter:card" content="summary">
 <style>
  :root{
    color-scheme:light dark;
@@ -65,6 +75,25 @@
  @media (max-width:1100px){
    header{padding:8px 16px 34px}
    .topbtns{top:auto;bottom:8px;right:16px}
+ }
+ /* ---- TELEFON. Merve (390 px, Chrome mobil emulacio): a lap 883 px szeles
+    volt, vagyis 2,3-szer a kepernyo -- oldalra kellett huzogatni. A fo okozo
+    a `.sub` es a `h1` `white-space:nowrap`-je: a fejlec alcime EGY sorban
+    maradt (867 px), es epp ma hosszabbodott meg az unios forras
+    felvetelevel. A tobbi tulnyulas 10-40 px (nowlink, doclink, select). ---- */
+ @media (max-width:640px){
+   h1,.sub{white-space:normal}
+   .hgroup{flex:1 1 100%;min-width:0}
+   header{gap:8px}
+   .bar{flex-wrap:wrap;min-width:0;max-width:100%}
+   .bar label{flex-wrap:wrap;min-width:0}
+   .bar select{max-width:46vw}
+   .nowlink{overflow-wrap:anywhere}
+   /* a doksi-linkek NE torjenek szo kozepen ("Ellentmon-dasok"):
+      a sor torjon helyettuk. */
+   .topbtns{flex-wrap:wrap;row-gap:6px}
+   .doclink{white-space:nowrap}
+   .popbody{max-width:calc(100vw - 32px)}
  }
 
  /* ---- kétosztatú törzs: teljes fennmaradó magasság, a lista keskenyebb,
@@ -263,7 +292,7 @@
   </div>
   <div class="hgroup">
     <h1>HJusDefs</h1>
-    <div class="sub">Jogszabályi definíciók · Magyar Közlöny 1990–2026 · uniós jogi aktusok (EUR-Lex) · 30 093 definíció · 15 905 egyedi fogalom · <span class="build" title="Ennek a lapnak a build-azonosítója. Ha a közzétett oldalon régebbi értéket látsz, mint a helyi buildben, akkor még a régi verziót szolgálja ki a szerver (vagy a böngésző cache-eli). A hash utáni „+piszkos(N)” azt jelenti, hogy a lap N olyan fájlból épült, amely eltér az adott committól — tehát ebből a commitból nem állítható elő újra.">build 2026-10-03 19:51 · df33f45</span></div>
+    <div class="sub">Jogszabályi definíciók · Magyar Közlöny 1990–2026 · uniós jogi aktusok (EUR-Lex) · 30 093 definíció · 15 905 egyedi fogalom · <span class="build" title="Ennek a lapnak a build-azonosítója. Ha a közzétett oldalon régebbi értéket látsz, mint a helyi buildben, akkor még a régi verziót szolgálja ki a szerver (vagy a böngésző cache-eli). A hash utáni „+piszkos(N)” azt jelenti, hogy a lap N olyan fájlból épült, amely eltér az adott committól — tehát ebből a commitból nem állítható elő újra.">build 2026-10-04 08:13 · 93653a6</span></div>
   </div>
   <div class="qwrap">
     <input id="q" placeholder="Keress bármilyen jogi fogalomra… (pl. hulladék, fogyasztó, tógazdaság)" autofocus>
