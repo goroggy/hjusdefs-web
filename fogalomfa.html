@@ -246,8 +246,17 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':
 function nincsTalalat(f){
   if(!f) return '<li class="empty">Nincs megjelenitheto fogalom.</li>';
   const kint = (D.kivul || []).filter(n => n.toLowerCase().includes(f)).slice(0, 6);
+  // NEGYEDIK ALLAPOT. A "sem a faban, sem a gyujtemenyben" NEM igaz: ez a lap
+  // csak a fogalmak NEVET ismeri, a meghatarozasok szovegét nem. Merve
+  // (2026-10-06, user bejelentese): "varmegye" -- egyetlen fogalom neve sem
+  // ilyen (a megye->varmegye atnevezes 2023-01-01-jei, a gyujtemeny viszont
+  // kihirdeteskori allapotot mutat), de 8 meghatarozas SZOVEGE tartalmazza.
+  // Amit ez a lap nem tud, azt ne is allitsa: atadjuk a gyujtemenynek.
   if(!kint.length)
-    return '<li class="empty">Nincs ilyen fogalom — sem a fában, sem a gyűjteményben.</li>';
+    return '<li class="empty">Egyetlen fogalom <b>neve</b> sem ilyen. '
+      + 'Lehet, hogy a meghatározások <b>szövegében</b> ott van — '
+      + '<a href="hjusdefs.html?kereses=' + encodeURIComponent(f)
+      + '" target="_blank" rel="noopener">keresd a gyűjteményben</a>.</li>';
   return '<li class="empty"><b>Ez a fogalom megvan a gyűjteményben, de nincs a fában:</b>'
     + ' nem találtunk hozzá igazolt <i>fajtája-</i>kapcsolatot. Nyisd meg a meghatározását:</li>'
     + kint.map(n => '<li class="empty">→ <a href="hjusdefs.html?fogalom='

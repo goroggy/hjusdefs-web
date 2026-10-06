@@ -109,6 +109,10 @@
 
  /* ---- találati lista: olvasható tipográfia ---- */
  #stat{opacity:.6;font-size:12.5px;margin:10px 0 2px}
+ /* A nev-szukites nema nullaja (l. render()): a figyelmeztetes NEM lehet
+    halvanyabb, mint a talalatszam, amit cafol. */
+ #stat .wide{opacity:1;display:block;margin-top:4px}
+ #stat .wide a{color:inherit;text-decoration:underline;cursor:pointer}
  .hit{border-top:1px solid var(--line);padding:14px 0}
  .hit:hover{background:#8881}
  .hit.sel{background:#2b6cb018;box-shadow:inset 3px 0 0 var(--accent)}
@@ -292,7 +296,7 @@
   </div>
   <div class="hgroup">
     <h1>HJusDefs</h1>
-    <div class="sub">Jogszabályi definíciók · Magyar Közlöny 1990–2026 · uniós jogi aktusok (EUR-Lex) · 30 722 definíció · 16 244 egyedi fogalom · <span class="build" title="Ennek a lapnak a build-azonosítója. Ha a közzétett oldalon régebbi értéket látsz, mint a helyi buildben, akkor még a régi verziót szolgálja ki a szerver (vagy a böngésző cache-eli). A hash utáni „+piszkos(N)” azt jelenti, hogy a lap N olyan fájlból épült, amely eltér az adott committól — tehát ebből a commitból nem állítható elő újra.">build 2026-10-06 07:57 · 1e85c9e</span></div>
+    <div class="sub">Jogszabályi definíciók · Magyar Közlöny 1990–2026 · uniós jogi aktusok (EUR-Lex) · 30 722 definíció · 16 244 egyedi fogalom · <span class="build" title="Ennek a lapnak a build-azonosítója. Ha a közzétett oldalon régebbi értéket látsz, mint a helyi buildben, akkor még a régi verziót szolgálja ki a szerver (vagy a böngésző cache-eli). A hash utáni „+piszkos(N)” azt jelenti, hogy a lap N olyan fájlból épült, amely eltér az adott committól — tehát ebből a commitból nem állítható elő újra.">build 2026-10-06 10:26 · ddfedcf</span></div>
   </div>
   <div class="qwrap">
     <input id="q" placeholder="Keress bármilyen jogi fogalomra… (pl. hulladék, fogyasztó, tógazdaság)" autofocus>
@@ -938,8 +942,30 @@ function render(keepLimit){
     terms=[...new Set(hits.flatMap(h=>h.terms))];
     items=sortItems(hits, mode);
   }
-  stat.textContent=items.length.toLocaleString('hu')+' találat'+
-    (items.length>displayLimit?' ('+displayLimit+' látszik, lásd lent)':'');
+  // A NEV-SZUKITES NEMA NULLAJA. A "csak a fogalom nevében" alapbol BE van
+  // kapcsolva, ezert a 0 találat ket, teljesen mas allitast mos ossze:
+  // "ilyen fogalom nincs" es "ilyen NEVU fogalom nincs, de a szövegekben ott
+  // van". A felhasznalo bejelentette (2026-10-06): a "megyére van találat, a
+  // "vármegyére" nincs -- pedig 8 meghatarozas SZOVEGE tartalmazza, csak
+  // egyetlen fogalom NEVE sem (a megye->varmegye atnevezes 2023-01-01-jei, a
+  // gyujtemeny viszont kihirdetéskori allapotot mutat). Ha a nev-szukites
+  // nullazott, megmerjuk a bo keresest, es kimondjuk a kulonbseget.
+  let wideHint='';
+  if(term && !items.length && onlyTerm.checked){
+    const wide=mini.search(term,{fields:['t','d','l','s'],filter:passesFilters,
+                                 ...searchOptsFor(term)});
+    if(wide.length)
+      wideHint='<span class="wide">Egyetlen fogalom NEVE sem ilyen, de '+
+        wide.length.toLocaleString('hu')+' meghatározás szövegében szerepel — '+
+        '<a id="wideSearch" role="button" tabindex="0">keresés a szövegekben is</a>.</span>';
+  }
+  stat.innerHTML=items.length.toLocaleString('hu')+' találat'+
+    (items.length>displayLimit?' ('+displayLimit+' látszik, lásd lent)':'')+wideHint;
+  const ws=document.getElementById('wideSearch');
+  if(ws) ws.addEventListener('click',()=>{
+    onlyTerm.checked=false;
+    render();
+  });
   renderList(items, terms, groupByLaw);
 }
 
@@ -2205,9 +2231,18 @@ const LANDING = 'közeli hozzátartozó';
   // vissza gomb (graphHistory) és a böngésző előzménye egymásnak feszülne.
   let startTerm = LANDING;
   let linkTerm = '';
+  let freeText = '';
   try{
     const m = /(?:^|[?&#])fogalom=([^&#]*)/.exec(location.search + location.hash);
     if(m) linkTerm = decodeURIComponent(m[1].replace(/\+/g, ' ')).trim().toLowerCase();
+    // ?kereses= : SZABAD SZOVEG, nem fogalomnev. A fogalomfa negyedik ures
+    // allapota (nincs ilyen NEVU fogalom) ezt kuldi at, hogy a latogato
+    // megtalalja a szot a meghatarozasok SZOVEGEBEN. Kulon parameter, mert a
+    // ?fogalom= szemantikaja mas: ott az ismeretlen nev szandekosan az
+    // elozmenyre esik vissza (egy elavult megosztott link ne vigye el a
+    // visszatero olvaso helyet) -- azt a kaput nem szabad elrontani.
+    const mk = /(?:^|[?&#])kereses=([^&#]*)/.exec(location.search + location.hash);
+    if(mk) freeText = decodeURIComponent(mk[1].replace(/\+/g, ' ')).trim();
   }catch(_){}
   if(linkTerm && gIdx.has(linkTerm)){
     startTerm = linkTerm;
@@ -2216,6 +2251,20 @@ const LANDING = 'közeli hozzátartozó';
       const t=graphHistory[i] && graphHistory[i].term;
       if(t && !t.startsWith('⁂') && gIdx.has(t)){ startTerm=t; break; }
     }
+  }
+  if(freeText){
+    onlyTerm.checked = false;
+    q.value = freeText;
+    updClear();
+    render();
+    const first = out.querySelector('.hit[data-i="0"]');
+    if(first) first.classList.add('sel');
+    updGback();
+    updAllLaws();
+    const seed = (shown[0] && shown[0].t) ? shown[0].t.toLowerCase() : LANDING;
+    setCurrentState(seed, null, null);
+    showGraph(seed);
+    return;
   }
   q.value = startTerm;
   updClear();
