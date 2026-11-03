@@ -17,10 +17,52 @@ function tile(term) {
 function home() {
   main.innerHTML = `<section class="hero"><div class="eyebrow">Jogszabályok és bírói gyakorlat, összekötve</div><h1>Jogi elnevezések,<br>meghatározások és bírói értelmezések.</h1><p class="lead">Mit jelent a jogszabályban? Mit mondanak róla a bíróságok? Indulj el egy szóból, és kövesd a kapcsolatait.</p>${searchForm()}<p class="hint">POC: ${number(Object.keys(DATA.concepts).length)} fogalom és ${number(DATA.cards.length)} bírói rezümérészlet válogatott mintája.</p></section><section class="examples"><div class="sectionhead"><h2>Innen is elindulhatsz</h2><span>Valódi forrásokból, kattintható kapcsolatokkal</span></div><div class="tiles">${DATA.seeds.map(tile).join('')}</div></section><section class="route"><div><b>01 · Találd meg</b><p>Keress, vagy válassz egy fogalmat.</p></div><div><b>02 · Olvasd együtt</b><p>Meghatározások és bírói megállapítások.</p></div><div><b>03 · Menj tovább</b><p>Kapcsolódó fogalmak és bejárható térképek.</p></div></section>`;
 }
+// --- LEMMA-ALAPU KERESES (2026-11-02) ---------------------------------------
+// A beirt szo es a szovegek szavai is a huspacy-lemmara kepzodnek (DATA.lem,
+// word_lemmas.py), ekezethelyesen: a "hulladekok" a "hulladek"-ot talalja, de az
+// ekezet nelkuli "szamarak" nem egyezik a "szamara"-val. Csak az ekezet nelkul
+// beirt, a lemma-tablaban ismeretlen szot kezeljuk szo-elejen, ekezetlenitve
+// (a regi viselkedes), hogy a gepelt "hulladek" tovabbra is megtalalja a
+// "hulladék"-ot. A teljes egyezes helyett legalabb 4 karaktertol szo-elejre is
+// illeszkedik (gepeles kozben).
+const LEMMA_OF = new Map();
+for (const [lemma, forms] of Object.entries(DATA.lem || {})) for (const form of forms.split(' ')) LEMMA_OF.set(form, lemma);
+const WORD_RE = /[\p{L}\p{N}]+/gu;
+const wordsOf = text => String(text).toLocaleLowerCase('hu').match(WORD_RE) || [];
+// ekezet nelkul gepelt ragozott alak ("hulladekok"): az ekezetes alak lemmaja, ha
+// egyertelmu (a kozos ekezetlen alakhoz pontosan egy lemma tartozik)
+const FOLDED_LEMMA = new Map();
+for (const [form, lemma] of LEMMA_OF) {
+  const key = norm(form);
+  if (key === form) continue;
+  FOLDED_LEMMA.set(key, FOLDED_LEMMA.has(key) && FOLDED_LEMMA.get(key) !== lemma ? null : lemma);
+}
+const lemmaOf = word => LEMMA_OF.get(word) || (norm(word) === word && FOLDED_LEMMA.get(word)) || word;
+const lemmaCache = new Map();
+function lemmaSets(key, text) {
+  let sets = lemmaCache.get(key);
+  if (!sets) {
+    const lemmas = new Set(wordsOf(text).map(lemmaOf));
+    sets = {lemmas, folded: [...lemmas].map(norm)};
+    lemmaCache.set(key, sets);
+  }
+  return sets;
+}
+function matchesWord(word, sets) {
+  const lemma = lemmaOf(word);
+  if (sets.lemmas.has(lemma)) return true;
+  if (lemma.length >= 4) for (const candidate of sets.lemmas) if (candidate.startsWith(lemma)) return true;
+  if (!LEMMA_OF.has(word) && norm(word) === word && word.length >= 3)   // ekezet nelkul gepelt ismeretlen szo
+    return sets.folded.some(candidate => candidate.startsWith(word));
+  return false;
+}
+const matchesQuery = (words, key, text) => { const sets = lemmaSets(key, text); return words.every(word => matchesWord(word, sets)); };
 function search(query) {
   const needle = norm(query.trim());
-  const terms = Object.keys(DATA.concepts).filter(term => norm(term+' '+(DATA.concepts[term].article?.sections.map(section=>section.heading+' '+section.text).join(' ')||'')).includes(needle)).sort((a,b) => (norm(a) === needle ? -1 : norm(b) === needle ? 1 : a.localeCompare(b,'hu')));
-  const cards = needle ? DATA.cards.filter(card => norm(card.text + ' ' + card.case).includes(needle)) : [];
+  const words = wordsOf(query);
+  const conceptText = term => term + ' ' + (DATA.concepts[term].article?.sections.map(section => section.heading + ' ' + section.text).join(' ') || '');
+  const terms = Object.keys(DATA.concepts).filter(term => !words.length || matchesQuery(words, 'c:' + term, conceptText(term))).sort((a,b) => (norm(a) === needle ? -1 : norm(b) === needle ? 1 : a.localeCompare(b,'hu')));
+  const cards = words.length ? DATA.cards.filter(card => matchesQuery(words, 'k:' + card.id, card.text + ' ' + card.case)) : [];
   main.innerHTML = `<section class="results">${searchForm(query,true)}<div class="crumb"><a href="#">Kezdőlap</a> / Keresés</div><h1>${esc(query ? `Találatok: „${query}”` : 'Mit szeretnél megtalálni?')}</h1><p class="subtitle">${number(terms.length)} fogalom · ${number(cards.length)} bírói rezümérészlet a POC mintájában</p><h2>Fogalmak</h2><div class="tiles">${terms.slice(0,60).map(tile).join('')}</div>${!terms.length ? '<p class="empty">Ez a fogalom nincs a POC válogatott mintájában. Ez nem jelenti, hogy a teljes gyűjteményben sem szerepel.</p>' : ''}${terms.length>60 ? '<p class="hint">Az első 60 fogalom látható. Pontosítsd a keresést, vagy böngéssz az A–Z nézetben.</p>':''}${cards.length ? `<h2 style="margin-top:30px">Bírói megállapítások</h2>${cards.slice(0,15).map(courtCard).join('')}${cards.length>15 ? '<p class="hint">Az első 15 szöveges találat látható. Pontosítsd a keresést.</p>' : ''}`:''}</section>`;
 }
 function courtCard(card) {
