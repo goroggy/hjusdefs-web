@@ -282,7 +282,8 @@
      text-align:center;padding:30px;opacity:.5;font-size:13.5px;pointer-events:none}
  .node rect{rx:5;ry:5;stroke-width:1.5;cursor:pointer;fill-opacity:.22}
  .node rect:hover{stroke-width:2.5}
- .node.eu rect{stroke:#0b3d91;stroke-width:2.4;stroke-dasharray:1 0}
+ .node.eu rect{fill:#1e5bd8;fill-opacity:.5;stroke:#0b3d91;stroke-width:2.4}
+ .node.euhu rect{stroke:#1e5bd8;stroke-width:2.6}
  .euflag{display:inline-block;font-size:.68em;font-weight:700;letter-spacing:.04em;color:#fff;background:#0b3d91;
    border-radius:3px;padding:0 .35em;vertical-align:.1em}
  .node.root rect{stroke-width:3}
@@ -315,7 +316,7 @@
   </div>
   <div class="hgroup">
     <h1>HJusDefs</h1>
-    <div class="sub">Jogszabályi definíciók · Magyar Közlöny 1971–2026 · uniós jogi aktusok (EUR-Lex) · 49 457 definíció · 25 951 egyedi fogalom · <span class="build" title="Ennek a lapnak a build-azonosítója. Ha a közzétett oldalon régebbi értéket látsz, mint a helyi buildben, akkor még a régi verziót szolgálja ki a szerver (vagy a böngésző cache-eli). A hash utáni „+piszkos(N)” azt jelenti, hogy a lap N olyan fájlból épült, amely eltér az adott committól — tehát ebből a commitból nem állítható elő újra.">build 2026-11-06 11:33 · helyi változat</span></div>
+    <div class="sub">Jogszabályi definíciók · Magyar Közlöny 1971–2026 · uniós jogi aktusok (EUR-Lex) · 49 457 definíció · 25 951 egyedi fogalom · <span class="build" title="Ennek a lapnak a build-azonosítója. Ha a közzétett oldalon régebbi értéket látsz, mint a helyi buildben, akkor még a régi verziót szolgálja ki a szerver (vagy a böngésző cache-eli). A hash utáni „+piszkos(N)” azt jelenti, hogy a lap N olyan fájlból épült, amely eltér az adott committól — tehát ebből a commitból nem állítható elő újra.">build 2026-11-06 11:40 · helyi változat</span></div>
   </div>
   <div class="qwrap">
     <input id="q" placeholder="Keress bármilyen jogi fogalomra… (pl. hulladék, fogyasztó, tógazdaság)" autofocus>
@@ -404,6 +405,8 @@
           <span title="Ennek a meghatározása hivatkozik a kiválasztottra"><i style="background:#8558b8"></i>erre épít</span>
           <span title="Kölcsönösen hivatkoznak egymásra"><i style="background:#b8860b"></i>kölcsönös</span>
           <span title="Nincs logikai kapcsolat, csak ugyanabban a jogszabályban vannak meghatározva"><i style="background:#9aa5b1"></i>együtt definiált</span>
+          <span title="Csak uniós jogi aktus (EUR-Lex) határozza meg"><i style="background:#1e5bd8"></i>EU</span>
+          <span title="Uniós és magyar jogszabály is meghatározza"><i style="background:#fff;border:2px solid #1e5bd8"></i>EU és HU</span>
           <span title="Egy jogszabály összes fogalma (a jogszabálynév melletti ⁂ gombbal)"><i style="background:#3f7f8f"></i>jogszabály fogalmai</span>
           <span title="Csak közvetve, egy másik megjelenített fogalmon keresztül kapcsolódik a kiválasztotthoz (2 lépés távolság)"><i style="background:#6b8cae"></i>közvetett (2. lépés)</span>
           <span title="Sok meghatározás hivatkozik rá, de egyik jogszabály sem határozza meg ebben a gyűjteményben. Kattintásra a rá hivatkozókat keresi."><i style="background:#fff;border:1.5px dashed #c0592c"></i>hídfogalom</span>
@@ -679,7 +682,7 @@ function passesFilters(r){
 // Fogalomnév -> honnan van definíciója (gráf-csomópont jelöléséhez): csak uniós / csak magyar / vegyes.
 // Lusta felépítés: a CELLAR konstans a fájl későbbi részén van (const: időbeli holt zóna az első olvasásig).
 let termOrigin = null;
-const euOnlyTerm = t => {
+const originOfTerm = t => {
   if(!termOrigin){
     termOrigin = new Map();
     for(const r of DATA){
@@ -690,7 +693,15 @@ const euOnlyTerm = t => {
     }
   }
   const o = termOrigin.get(t);
-  return !!o && o.eu>0 && o.hu===0;
+  if(!o) return '';                       // nincs saját definíció (hídfogalom)
+  return o.eu>0 && o.hu===0 ? 'eu' : (o.eu===0 ? 'hu' : 'mix');
+};
+const euOnlyTerm = t => originOfTerm(t)==='eu';
+// Az EU/HU választó a gráfra is hat: csak az adott forrásból definiált fogalmak maradnak (a kiválasztott mindig).
+const allowedBySource = (i, startIdx) => {
+  if(!srcSel.value || i===startIdx) return true;
+  const o = originOfTerm(gTerm[i]);
+  return o==='mix' || o===srcSel.value;
 };
 
 // Fontosság = HÁNY JOGSZABÁLY határozza meg a fogalmat.
@@ -1874,6 +1885,10 @@ async function showGraphCore(term, lawCtx){
   const depth=parseInt(depthSel.value,10);
   const nb = lawCtx ? lawNeighborhood(lawCtx.hash, dfLimit)
                     : neighborhood(term, depth, dfLimit);
+  if(nb && srcSel.value){
+    for(const i of [...nb.nodes.keys()]) if(!allowedBySource(i, nb.start)) nb.nodes.delete(i);
+    nb.links = nb.links.filter(([a,b])=>nb.nodes.has(a) && nb.nodes.has(b));
+  }
   const svg=$('graph');
   // Egyszeri nézet-megtartás (kibontás / vezérlő-állítás jött keepView()-ból):
   // a render végén NEM a teljes képre igazítunk, hanem ezt a viewBoxot tartjuk.
@@ -1912,6 +1927,7 @@ async function showGraphCore(term, lawCtx){
       .filter(x=>showCand.checked||!isCandKind(x.k||''))
       .sort((a,b)=>hStrength(b.c)-hStrength(a.c)).slice(0, MAX_HIER_EXPAND);
     for(const x of kids){
+      if(!allowedBySource(x.c, nb.start)) continue;
       if(!nb.nodes.has(x.c)) nb.nodes.set(x.c,2);
       // "Új" jelölés: az ELŐZŐ render vásznán még nem szerepelt, és a most
       // kibontott (freshFrom) csomópont hozta be.
@@ -2188,7 +2204,7 @@ async function showGraphCore(term, lawCtx){
       :(d==='law'?'#3f7f8f':'#6b8cae'))))));
     const gg=document.createElementNS(NS,'g');
     gg.setAttribute('class','node'+(isRoot?' root':'')+(isBridge?' bridge':'')+
-      (euOnlyTerm(gTerm[i])?' eu':'')+(freshNodes.has(i)?' fresh':''));
+      ({eu:' eu', mix:' euhu'}[originOfTerm(gTerm[i])]||'')+(freshNodes.has(i)?' fresh':''));
     gg.setAttribute('transform','translate('+c.x+','+c.y+')');
     // Frissen kibontott node: derengés a node MÖGÉ (a halo az első gyerek,
     // így a fő rect és a felirat rárajzolódik).
@@ -2436,7 +2452,8 @@ q.oninput=()=>{
   }, 500);
 };
 onlyTerm.onchange=render;
-yr.onchange=render; sortSel.onchange=render; srcSel.onchange=render;
+yr.onchange=render; sortSel.onchange=render;
+srcSel.onchange=()=>{ render(); if(selectedTerm){ keepView(); showGraph(selectedTerm); } };
 algo.onchange=()=>{
   // A választott elrendezést megjegyezzük: a "rétegzett" sok fogalomnál
   // informatívabb, és idegesítő minden megnyitáskor visszaállítani.
